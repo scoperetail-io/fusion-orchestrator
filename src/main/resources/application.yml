@@ -1,14 +1,14 @@
 fusion:
   brokers:
     - channel: NA
-      hostUrl: tcp://127.0.0.1:61616
+      hostUrl: 'tcp://127.0.0.1:61616'
       brokerId: activeMQ
       jmsProvider: ACTIVEMQ
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
     - channel: NA
-      hostUrl: tcp://127.0.0.1:61617
+      hostUrl: 'tcp://127.0.0.1:61617'
       brokerId: activeMQ2
       jmsProvider: ACTIVEMQ
       queueManagerName: NA
@@ -28,25 +28,33 @@ fusion:
       version: 1
       activeConfig: adapterConfig
       configs:
-      - name: adapterConfig
-        logLevel: DEBUG
-        adapters:
-          - adapterType: outbound
-            type: jms
-            usecaseResult: SUCCESS
-            brokerId: activeMQ
-            queueName: ORDER.DROP.SUCCESS
-          - adapterType: outbound
-            type: jms
-            usecaseResult: SUCCESS
-            brokerId: activeMQ2
-            queueName: AUDIT.IN
-          - adapterType: outbound
-            type: jms
-            usecaseResult: FAILURE
-            brokerId: activeMQ
-            queueName: ORDER.DROP.ERROR
-          - adapterType: inbound
-            type: jms
-            brokerId: activeMQ
-            queueName: ORDER.DROP.SUCCESS
+        - name: adapterConfig
+          logLevel: DEBUG
+          adapters:
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: activeMQ
+              queueName: ORDER.DROP.READER
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: activeMQ2
+              queueName: AUDIT.IN
+            - adapterType: outbound
+              type: jms
+              usecaseResult: FAILURE
+              brokerId: activeMQ
+              queueName: ORDER.DROP.ERROR
+              
+    - name: OrderDropReader
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          logLevel: DEBUG
+          adapters:
+            - adapterType: inbound
+              type: jms
+              brokerId: activeMQ
+              queueName: ORDER.DROP.READER

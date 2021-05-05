@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouter;
+import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouterSender;
 import com.scoperetail.fusion.messaging.application.port.in.UsecaseResult;
 import com.scoperetail.fusion.messaging.config.Adapter;
 import com.scoperetail.fusion.messaging.config.Config;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PosterOutboundJMSAdapter implements PosterOutboundPort {
 
-	private MessageRouter messageSender;
+	private MessageRouterSender messageSender;
 
 	private FusionConfig fusionConfig;
 
