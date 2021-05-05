@@ -16,7 +16,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class DomainEvent {
 	private String eventId; //hash key using attributes
-	private Event eventName;
+	private Event event;
 	private Map<String,String> keyMap;
 	private String payload;
 	@Builder.Default

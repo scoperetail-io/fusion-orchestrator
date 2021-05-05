@@ -17,7 +17,7 @@ fusion:
       backoffMS: 2000
       type: Exponential
   usecases:
-    - name: OrderDrop
+    - name: OrderDropEvent
       version: 1
       activeConfig: adapterConfig
       configs:
@@ -26,7 +26,16 @@ fusion:
         adapters:
           - adapterType: outbound
             type: jms
+            usecaseResult: SUCCESS
             brokerId: activeMQ
-            queueName: ORDER.DROP.OUTBOUND
-            errorQueName: ORDER.DROP.OU
-            boQuename: ORDER.DROP.OUTBOUND.BO
+            queueName: ORDER.DROP.SUCCESS
+          - adapterType: outbound
+            type: jms
+            usecaseResult: SUCCESS
+            brokerId: activeMQ
+            queueName: AUDIT.IN
+          - adapterType: outbound
+            type: jms
+            usecaseResult: FAILURE
+            brokerId: activeMQ
+            queueName: ORDER.DROP.ERROR
