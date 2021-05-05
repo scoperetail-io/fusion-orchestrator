@@ -1,0 +1,32 @@
+fusion:
+  brokers:
+    - channel: NA
+      hostUrl: tcp://127.0.0.1:61616
+      brokerId: activeMQ
+      jmsProvider: AMQ
+      queueManagerName: NA
+      sendSessionCacheSize: 10
+      userName: admin
+  retryPolicies:
+    - policyType: REALTIME
+      maxAttempt: 3
+      backoffMS: 1000
+      type: Fixed
+    - policyType: OFFLINE
+      maxAttempt: 5
+      backoffMS: 2000
+      type: Exponential
+  usecases:
+    - name: OrderDrop
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+      - name: adapterConfig
+        logLevel: DEBUG
+        adapters:
+          - adapterType: outbound
+            type: jms
+            brokerId: activeMQ
+            queueName: ORDER.DROP.OUTBOUND
+            errorQueName: ORDER.DROP.OU
+            boQuename: ORDER.DROP.OUTBOUND.BO
