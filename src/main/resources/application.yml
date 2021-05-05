@@ -3,7 +3,14 @@ fusion:
     - channel: NA
       hostUrl: tcp://127.0.0.1:61616
       brokerId: activeMQ
-      jmsProvider: AMQ
+      jmsProvider: ACTIVEMQ
+      queueManagerName: NA
+      sendSessionCacheSize: 10
+      userName: admin
+    - channel: NA
+      hostUrl: tcp://127.0.0.1:61617
+      brokerId: activeMQ2
+      jmsProvider: ACTIVEMQ
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
@@ -32,10 +39,14 @@ fusion:
           - adapterType: outbound
             type: jms
             usecaseResult: SUCCESS
-            brokerId: activeMQ
+            brokerId: activeMQ2
             queueName: AUDIT.IN
           - adapterType: outbound
             type: jms
             usecaseResult: FAILURE
             brokerId: activeMQ
             queueName: ORDER.DROP.ERROR
+          - adapterType: inbound
+            type: jms
+            brokerId: activeMQ
+            queueName: ORDER.DROP.SUCCESS
