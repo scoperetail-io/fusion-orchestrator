@@ -80,7 +80,11 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
+		<dependency>
+			<groupId>com.scoperetail.fusion</groupId>
+			<artifactId>shared-kernel</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.scoperetail.fusion</groupId>
 			<artifactId>openapi-specification</artifactId>

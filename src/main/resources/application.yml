@@ -1,12 +1,29 @@
 fusion:
   brokers:
     - channel: NA
-      hostUrl: tcp://127.0.0.1:61616
-      brokerId: activeMQ
-      jmsProvider: AMQ
+      hostUrl: 'tcp://127.0.0.1:61615'
+      brokerId: mcsBroker
+      jmsProvider: ACTIVEMQ
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
+      owner: MCS
+    - channel: NA
+      hostUrl: 'tcp://127.0.0.1:61616'
+      brokerId: scopeBroker
+      jmsProvider: ACTIVEMQ
+      queueManagerName: NA
+      sendSessionCacheSize: 10
+      userName: admin
+      owner: SCOPE
+    - channel: NA
+      hostUrl: 'tcp://127.0.0.1:61617'
+      brokerId: GIFBroker
+      jmsProvider: ACTIVEMQ
+      queueManagerName: NA
+      sendSessionCacheSize: 10
+      userName: admin
+      owner: GIF
   retryPolicies:
     - policyType: REALTIME
       maxAttempt: 3
@@ -21,21 +38,53 @@ fusion:
       version: 1
       activeConfig: adapterConfig
       configs:
-      - name: adapterConfig
-        logLevel: DEBUG
-        adapters:
-          - adapterType: outbound
-            type: jms
-            usecaseResult: SUCCESS
-            brokerId: activeMQ
-            queueName: ORDER.DROP.SUCCESS
-          - adapterType: outbound
-            type: jms
-            usecaseResult: SUCCESS
-            brokerId: activeMQ
-            queueName: AUDIT.IN
-          - adapterType: outbound
-            type: jms
-            usecaseResult: FAILURE
-            brokerId: activeMQ
-            queueName: ORDER.DROP.ERROR
+        - name: adapterConfig
+          logLevel: DEBUG
+          adapters:
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: scopeBroker
+              queueName: ORDER.DROP.READER
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: scopeBroker
+              queueName: AUDIT.IN
+            - adapterType: outbound
+              type: jms
+              usecaseResult: FAILURE
+              brokerId: scopeBroker
+              queueName: ORDER.DROP.ERROR
+    - name: OrderDropEventReader
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          logLevel: DEBUG
+          adapters:
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: GIFBroker
+              queueName: ORDER.DROP.OUTBOUND
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: scopeBroker
+              queueName: AUDIT.IN
+            - adapterType: outbound
+              type: rest
+              usecaseResult: SUCCESS
+              hostName: httpdump.io
+              port: 443
+              protocol: https
+              methodType: POST
+              uriTemplate: uri.vm
+              requestBodyTemplate: requestBody.vm
+              requestHeaderTemplate: requestHeader.vm
+            - adapterType: outbound
+              type: jms
+              usecaseResult: FAILURE
+              brokerId: scopeBroker
+              queueName: ORDER.DROP.OUTBOUND.ERROR
