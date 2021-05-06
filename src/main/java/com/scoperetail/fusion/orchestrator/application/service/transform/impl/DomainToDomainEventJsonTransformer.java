@@ -31,7 +31,7 @@ public class DomainToDomainEventJsonTransformer extends AbstractTransformer {
 		log.trace("Processing message {}", event);
 		String payload = JsonUtils.marshal(Optional.ofNullable(entity));
 		log.trace("Marshalled message {}", event);
-		String keyJson = getKeyJson(event, entity, HASH_KEY_TEMPLATE);
+		String keyJson = getTextFromTemplate(event, entity, HASH_KEY_TEMPLATE);
 		keyMap = getkeyMap(keyJson);
 		keyHash = HashUtil.getHash(keyJson);
 		log.trace("Created hash of hash key {}", event);

@@ -1,0 +1,1 @@
+{"hello": "$EVENT.routingInfo.sourceNode.location.countryCode"}

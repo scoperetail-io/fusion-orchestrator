@@ -17,7 +17,7 @@ public abstract class AbstractTransformer implements Transformer {
 
 	protected DomainHelper domainHelper;
 
-	protected final String getKeyJson(Event event, Object entity, String template) {
+	protected final String getTextFromTemplate(Event event, Object entity, String template) {
 		String keyJson = domainHelper.generateTextFromTemplate(event, entity, template);
 		log.trace("Hash key text generated {}", keyJson);
 		return keyJson;

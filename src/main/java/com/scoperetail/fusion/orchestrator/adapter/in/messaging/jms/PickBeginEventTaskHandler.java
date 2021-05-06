@@ -12,18 +12,18 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class AuditReader implements MessageListener<String> {
+public class PickBeginEventTaskHandler implements MessageListener<String> {
 
 	MessageRouterReceiver messageRouterReceiver;
 
 	@PostConstruct
 	private void initialize() {
-		//messageRouterReceiver.registerListener("scopeBroker", "AUDIT.IN", this);
+		messageRouterReceiver.registerListener("mcsBroker", "MCS.OUT", this);
 	}
 
 	@Override
 	public TaskResult doTask(String message) {
-		System.out.println(AuditReader.class.getCanonicalName());
+		System.out.println(PickBeginEventTaskHandler.class.getCanonicalName());
 		return TaskResult.SUCCESS;
 	}
 
