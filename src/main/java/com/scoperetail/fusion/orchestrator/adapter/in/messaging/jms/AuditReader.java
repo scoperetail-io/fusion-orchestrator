@@ -18,7 +18,7 @@ public class AuditReader implements MessageListener<String> {
 
 	@PostConstruct
 	private void initialize() {
-		messageRouterReceiver.registerListener("activeMQ2", "AUDIT.IN", this);
+		//messageRouterReceiver.registerListener("scopeBroker", "AUDIT.IN", this);
 	}
 
 	@Override

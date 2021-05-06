@@ -1,5 +1,7 @@
 package com.scoperetail.fusion.orchestrator.adapter.in.web.command;
 
+import static com.scoperetail.fusion.shared.kernel.events.Event.OrderDropEvent;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderCommandDelegate implements OrdersApiDelegate {
 
 	private PosterUseCase posterUseCase;
-	
+
 	@Override
 	public ResponseEntity<ModelApiResponse> orderDropEvent(OrderDropEvent orderDropEventRequest) {
-		ModelApiResponse response = posterUseCase.post(orderDropEventRequest);
+		ModelApiResponse response = posterUseCase.post(OrderDropEvent, orderDropEventRequest);
 		return ResponseEntity.ok(response);
 	}
 

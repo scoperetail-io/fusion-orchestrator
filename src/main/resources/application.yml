@@ -2,18 +2,20 @@ fusion:
   brokers:
     - channel: NA
       hostUrl: 'tcp://127.0.0.1:61616'
-      brokerId: activeMQ
+      brokerId: scopeBroker
       jmsProvider: ACTIVEMQ
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
+      owner: SCOPE
     - channel: NA
       hostUrl: 'tcp://127.0.0.1:61617'
-      brokerId: activeMQ2
+      brokerId: thirdPartyBroker
       jmsProvider: ACTIVEMQ
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
+      owner: GIF
   retryPolicies:
     - policyType: REALTIME
       maxAttempt: 3
@@ -34,27 +36,42 @@ fusion:
             - adapterType: outbound
               type: jms
               usecaseResult: SUCCESS
-              brokerId: activeMQ
+              brokerId: scopeBroker
               queueName: ORDER.DROP.READER
             - adapterType: outbound
               type: jms
               usecaseResult: SUCCESS
-              brokerId: activeMQ2
+              brokerId: scopeBroker
               queueName: AUDIT.IN
             - adapterType: outbound
               type: jms
               usecaseResult: FAILURE
-              brokerId: activeMQ
+              brokerId: scopeBroker
               queueName: ORDER.DROP.ERROR
               
-    - name: OrderDropReader
+    - name: OrderDropEventReader
       version: 1
       activeConfig: adapterConfig
       configs:
         - name: adapterConfig
           logLevel: DEBUG
           adapters:
-            - adapterType: inbound
+            - adapterType: outbound
               type: jms
-              brokerId: activeMQ
-              queueName: ORDER.DROP.READER
+              usecaseResult: SUCCESS
+              brokerId: thirdPartyBroker
+              queueName: ORDER.DROP.OUTBOUND
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: scopeBroker
+              queueName: AUDIT.IN            
+            - adapterType: outbound
+              type: jms
+              usecaseResult: FAILURE
+              brokerId: thirdPartyBroker
+              queueName: ORDER.DROP.OUTBOUND.ERROR
+
+            
+              
+              
