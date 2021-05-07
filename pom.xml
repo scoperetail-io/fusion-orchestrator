@@ -33,7 +33,11 @@
 			<version>${lombok.version}</version><!--$NO-MVN-MAN-VER$ -->
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>com.scoperetail.fusion</groupId>
+			<artifactId>messaging-schema</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- <dependency> <groupId>com.fasterxml.jackson.datatype</groupId> <artifactId>jackson-datatype-jsr310</artifactId> 
 			</dependency> -->
 		<dependency>

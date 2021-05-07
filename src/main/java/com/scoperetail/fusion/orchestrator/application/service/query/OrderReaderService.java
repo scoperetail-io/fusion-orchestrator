@@ -20,17 +20,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderReaderService implements OrderReaderUseCase {
 
-	PosterUseCase posterUseCase;
+	private PosterUseCase posterUseCase;
 
 	@Override
-	public boolean readOrder(String message) throws IOException {
-		OrderDropEvent orderDropEvent = unmarshal(message);
-		posterUseCase.post(OrderDropEventReader, orderDropEvent);
-		return false;
+	public boolean readOrder(Object message, boolean isValid) {
+		boolean result = false;
+		try {
+			OrderDropEvent orderDropEvent = unmarshal(message);
+			result = posterUseCase.post(OrderDropEventReader, orderDropEvent, isValid);
+		} catch (IOException e) {
+			log.error("OrderReaderService:: {}", e);
+		}
+		return result;
 	}
 
-	private OrderDropEvent unmarshal(String message) throws IOException {
-		DomainEvent domainEvent = JsonUtils.unmarshal(Optional.ofNullable(message),
+	private OrderDropEvent unmarshal(Object message) throws IOException {
+		DomainEvent domainEvent = JsonUtils.unmarshal(Optional.ofNullable(message.toString()),
 				DomainEvent.class.getCanonicalName());
 		return JsonUtils.unmarshal(Optional.ofNullable(domainEvent.getPayload()),
 				OrderDropEvent.class.getCanonicalName());

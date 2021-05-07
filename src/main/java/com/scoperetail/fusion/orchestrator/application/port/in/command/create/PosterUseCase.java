@@ -5,5 +5,5 @@ import com.scoperetail.fusion.shared.kernel.events.Event;
 
 public interface PosterUseCase {
 
-	ModelApiResponse post(Event event, Object domainEntity);
+	boolean post(Event event, Object domainEntity, boolean isValid);
 }

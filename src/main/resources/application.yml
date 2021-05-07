@@ -45,7 +45,7 @@ fusion:
               type: jms
               usecaseResult: SUCCESS
               brokerId: scopeBroker
-              queueName: ORDER.DROP.READER
+              queueName: ORDER.DROP.OUTBOUND
             - adapterType: outbound
               type: jms
               usecaseResult: SUCCESS
@@ -67,7 +67,25 @@ fusion:
               type: jms
               usecaseResult: SUCCESS
               brokerId: GIFBroker
-              queueName: ORDER.DROP.OUTBOUND
+              queueName: ORDER.DROP.READER.OUTBOUND
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: scopeBroker
+              queueName: AUDIT.IN
+            - adapterType: outbound
+              type: jms
+              usecaseResult: FAILURE
+              brokerId: scopeBroker
+              queueName: ORDER.DROP.OUTBOUND.ERROR
+             
+    - name: PickBeginEvent
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          logLevel: DEBUG
+          adapters:
             - adapterType: outbound
               type: jms
               usecaseResult: SUCCESS
@@ -76,7 +94,7 @@ fusion:
             - adapterType: outbound
               type: rest
               usecaseResult: SUCCESS
-              hostName: httpdump.io
+              hostName: httpbin.org
               port: 443
               protocol: https
               methodType: POST
@@ -87,4 +105,32 @@ fusion:
               type: jms
               usecaseResult: FAILURE
               brokerId: scopeBroker
-              queueName: ORDER.DROP.OUTBOUND.ERROR
+              queueName: PICK.BEGIN.OUTBOUND.BO
+              
+    - name: PickEndEvent
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          logLevel: DEBUG
+          adapters:
+            - adapterType: outbound
+              type: jms
+              usecaseResult: SUCCESS
+              brokerId: scopeBroker
+              queueName: AUDIT.IN
+            - adapterType: outbound
+              type: rest
+              usecaseResult: SUCCESS
+              hostName: httpbin.org
+              port: 443
+              protocol: https
+              methodType: POST
+              uriTemplate: uri.vm
+              requestBodyTemplate: requestBody.vm
+              requestHeaderTemplate: requestHeader.vm
+            - adapterType: outbound
+              type: jms
+              usecaseResult: FAILURE
+              brokerId: scopeBroker
+              queueName: PICK.END.OUTBOUND.BO                     

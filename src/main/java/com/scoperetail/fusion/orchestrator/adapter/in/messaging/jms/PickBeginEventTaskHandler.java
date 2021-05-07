@@ -1,30 +1,35 @@
 package com.scoperetail.fusion.orchestrator.adapter.in.messaging.jms;
 
-import javax.annotation.PostConstruct;
+import javax.xml.validation.Schema;
 
 import org.springframework.stereotype.Component;
 
-import com.scoperetail.fusion.messaging.adapter.in.messaging.jms.MessageListener;
-import com.scoperetail.fusion.messaging.adapter.in.messaging.jms.TaskResult;
 import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouterReceiver;
+import com.scoperetail.fusion.messaging.schema.pick.begin.PickingOrderBeginEventMessage;
+import com.scoperetail.fusion.orchestrator.application.port.in.query.PickBeginUseCase;
 
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
-@AllArgsConstructor
-public class PickBeginEventTaskHandler implements MessageListener<String> {
+@Slf4j
+public class PickBeginEventTaskHandler extends AbstractMessageListener {
 
-	MessageRouterReceiver messageRouterReceiver;
+	PickBeginUseCase pickBeginUseCase;
 
-	@PostConstruct
-	private void initialize() {
-		messageRouterReceiver.registerListener("mcsBroker", "MCS.OUT", this);
+	public PickBeginEventTaskHandler(MessageRouterReceiver messageRouterReceiver, Schema pickBeginXmlSchema,
+			PickBeginUseCase pickBeginUseCase) {
+		super("mcsBroker", "MCS.PICK.BEGIN.OUT", MessageType.XML, pickBeginXmlSchema, messageRouterReceiver);
+		this.pickBeginUseCase = pickBeginUseCase;
 	}
 
 	@Override
-	public TaskResult doTask(String message) {
-		System.out.println(PickBeginEventTaskHandler.class.getCanonicalName());
-		return TaskResult.SUCCESS;
+	protected boolean handleMessage(Object event, boolean isValid) {
+		return pickBeginUseCase.beginPick(event, isValid);
+
 	}
 
+	@Override
+	protected Class getClazz() {
+		return PickingOrderBeginEventMessage.class;
+	}
 }
