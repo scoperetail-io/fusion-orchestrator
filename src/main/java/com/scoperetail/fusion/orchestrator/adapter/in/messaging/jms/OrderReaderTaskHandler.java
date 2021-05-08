@@ -14,13 +14,14 @@ public class OrderReaderTaskHandler extends AbstractMessageListener {
 
 	OrderReaderUseCase orderReaderUseCase;
 
-	public OrderReaderTaskHandler(MessageRouterReceiver messageRouterReceiver, OrderReaderUseCase orderReaderUseCase) {
-		super("scopeBroker", "ORDER.DROP.OUTBOUND", MessageType.JSON, null, messageRouterReceiver);
+	public OrderReaderTaskHandler(final MessageRouterReceiver messageRouterReceiver,
+			final OrderReaderUseCase orderReaderUseCase) {
+		super("fusionBroker", "ORDER.DROP.OUTBOUND", MessageType.JSON, null, messageRouterReceiver);
 		this.orderReaderUseCase = orderReaderUseCase;
 	}
 
 	@Override
-	protected boolean handleMessage(Object event, boolean isValid) {
+	protected boolean handleMessage(final Object event, final boolean isValid) {
 		return orderReaderUseCase.readOrder(event, isValid);
 	}
 
