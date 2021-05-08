@@ -22,7 +22,6 @@ import com.scoperetail.fusion.messaging.config.Adapter;
 import com.scoperetail.fusion.messaging.config.Broker;
 import com.scoperetail.fusion.messaging.config.Config;
 import com.scoperetail.fusion.messaging.config.FusionConfig;
-import com.scoperetail.fusion.messaging.config.RetryPolicy;
 import com.scoperetail.fusion.messaging.config.UseCaseConfig;
 import com.scoperetail.fusion.orchestrator.application.port.in.command.create.PosterUseCase;
 import com.scoperetail.fusion.orchestrator.application.port.out.jms.PosterOutboundPort;
@@ -52,7 +51,7 @@ class PosterService implements PosterUseCase {
 	private FusionConfig fusionConfig;
 
 	private Map<String, Broker> brokersByBrokerIdMap;
-	
+
 	@PostConstruct
 	private void intialize() {
 		brokersByBrokerIdMap = fusionConfig.getBrokers().stream()
@@ -60,27 +59,27 @@ class PosterService implements PosterUseCase {
 	}
 
 	@Override
-	public boolean post(final Event event, final Object domainEntity, boolean isValid) {
+	public boolean post(final Event event, final Object domainEntity, final boolean isValid) {
 		boolean result;
 		try {
 			result = handleEvent(event, domainEntity, isValid);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			result = false;
 			log.error("PosterService:: {}", e);
 		}
 		return result;
 	}
 
-	private boolean handleEvent(final Event event, final Object domainEntity, boolean isValid) throws Exception {
-		String eventName = event.name();
+	private boolean handleEvent(final Event event, final Object domainEntity, final boolean isValid) throws Exception {
+		final String eventName = event.name();
 		boolean result = false;
-		Optional<UseCaseConfig> optUseCase = fusionConfig.getUsecases().stream()
+		final Optional<UseCaseConfig> optUseCase = fusionConfig.getUsecases().stream()
 				.filter(u -> u.getName().equals(eventName)).findFirst();
 		if (optUseCase.isPresent()) {
-			UseCaseConfig useCase = optUseCase.get();
-			String activeConfig = useCase.getActiveConfig();
-			Optional<Config> optConfig = useCase.getConfigs().stream().filter(c -> activeConfig.equals(c.getName()))
-					.findFirst();
+			final UseCaseConfig useCase = optUseCase.get();
+			final String activeConfig = useCase.getActiveConfig();
+			final Optional<Config> optConfig = useCase.getConfigs().stream()
+					.filter(c -> activeConfig.equals(c.getName())).findFirst();
 			if (optConfig.isPresent()) {
 				result = notifyJms(event, domainEntity, result, optConfig, isValid);
 				result = notifyRest(event, domainEntity, result, optConfig, isValid);
@@ -90,50 +89,52 @@ class PosterService implements PosterUseCase {
 		return result;
 	}
 
-	private boolean notifyRest(final Event event, final Object domainEntity, boolean result, Optional<Config> optConfig,
-			boolean isValid) throws Exception, IOException {
-		UsecaseResult usecaseResult = isValid ? SUCCESS : FAILURE;
-		List<Adapter> adapters = optConfig.get().getAdapters().stream()
+	private boolean notifyRest(final Event event, final Object domainEntity, boolean result,
+			final Optional<Config> optConfig, final boolean isValid) throws Exception, IOException {
+		final UsecaseResult usecaseResult = isValid ? SUCCESS : FAILURE;
+		final List<Adapter> adapters = optConfig.get().getAdapters().stream()
 				.filter(c -> c.getAdapterType().equals(Adapter.AdapterType.OUTBOUND)
-						&& c.getType().equals(Adapter.Type.REST) && c.getUsecaseResult().equals(usecaseResult))
+						&& c.getTrasnportType().equals(Adapter.TransportType.REST)
+						&& c.getUsecaseResult().equals(usecaseResult))
 				.collect(Collectors.toList());
 
-		for (Adapter adapter : adapters) {
-			RestTemplate restTemplate = new RestTemplate();
-			String uri = domainToHttpTransformer.transform(event, domainEntity, adapter.getUriTemplate());
-			String url = adapter.getProtocol() + "://" + adapter.getHostName() + ":" + adapter.getPort() + uri;
+		for (final Adapter adapter : adapters) {
+			final RestTemplate restTemplate = new RestTemplate();
+			final String uri = domainToHttpTransformer.transform(event, domainEntity, adapter.getUriTemplate());
+			final String url = adapter.getProtocol() + "://" + adapter.getHostName() + ":" + adapter.getPort() + uri;
 
-			String requestHeader = domainToHttpTransformer.transform(event, domainEntity,
+			final String requestHeader = domainToHttpTransformer.transform(event, domainEntity,
 					adapter.getRequestHeaderTemplate());
-			Map<String, String> httpHeadersMap = JsonUtils.unmarshal(Optional.ofNullable(requestHeader),
+			final Map<String, String> httpHeadersMap = JsonUtils.unmarshal(Optional.ofNullable(requestHeader),
 					Map.class.getCanonicalName());
-			HttpHeaders httpHeaders = new HttpHeaders();
+			final HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeadersMap.entrySet().forEach(mapEntry -> {
 				httpHeaders.add(mapEntry.getKey(), mapEntry.getValue());
 			});
 
-			String requestBody = domainToHttpTransformer.transform(event, domainEntity,
+			final String requestBody = domainToHttpTransformer.transform(event, domainEntity,
 					adapter.getRequestBodyTemplate());
 
-			HttpEntity<String> httpEntity = new HttpEntity<String>(requestBody, httpHeaders);
-			ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.valueOf(adapter.getMethodType()),
-					httpEntity, String.class);
+			final HttpEntity<String> httpEntity = new HttpEntity<String>(requestBody, httpHeaders);
+			final ResponseEntity<String> exchange = restTemplate.exchange(url,
+					HttpMethod.valueOf(adapter.getMethodType()), httpEntity, String.class);
 			System.out.println("REST RESPONSE IS " + exchange);
 			result = true;
 		}
 		return result;
 	}
 
-	private boolean notifyJms(final Event event, final Object domainEntity, boolean result, Optional<Config> optConfig,
-			boolean isValid) throws Exception, IOException {
-		UsecaseResult usecaseResult = isValid ? SUCCESS : FAILURE;
-		List<Adapter> adapters = optConfig.get().getAdapters().stream()
+	private boolean notifyJms(final Event event, final Object domainEntity, boolean result,
+			final Optional<Config> optConfig, final boolean isValid) throws Exception, IOException {
+		final UsecaseResult usecaseResult = isValid ? SUCCESS : FAILURE;
+		final List<Adapter> adapters = optConfig.get().getAdapters().stream()
 				.filter(c -> c.getAdapterType().equals(Adapter.AdapterType.OUTBOUND)
-						&& c.getType().equals(Adapter.Type.JMS) && c.getUsecaseResult().equals(usecaseResult))
+						&& c.getTrasnportType().equals(Adapter.TransportType.JMS)
+						&& c.getUsecaseResult().equals(usecaseResult))
 				.collect(Collectors.toList());
 
-		for (Adapter adapter : adapters) {
-			Broker broker = brokersByBrokerIdMap.get(adapter.getBrokerId());
+		for (final Adapter adapter : adapters) {
+			final Broker broker = brokersByBrokerIdMap.get(adapter.getBrokerId());
 			String payload;
 			if (Broker.Owner.SCOPE.equals(broker.getOwner())) {
 				payload = domainToDomainEventJsonTransformer.transform(event, domainEntity);

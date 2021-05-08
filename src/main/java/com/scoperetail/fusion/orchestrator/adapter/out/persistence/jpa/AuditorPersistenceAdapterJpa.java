@@ -1,0 +1,22 @@
+package com.scoperetail.fusion.orchestrator.adapter.out.persistence.jpa;
+
+import com.scoperetail.fusion.orchestrator.application.port.out.persistence.AuditorOutboundPort;
+import com.scoperetail.fusion.shared.kernel.common.annotation.PersistenceAdapter;
+import com.scoperetail.fusion.shared.kernel.events.DomainEvent;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@PersistenceAdapter
+@AllArgsConstructor
+@Slf4j
+public class AuditorPersistenceAdapterJpa implements AuditorOutboundPort {
+	// private MessageLogRepository repository;
+
+	@Override
+	public Boolean insertIfNotExist(final DomainEvent domainEvent) {
+		return true;// repository.insertIfNotExist(domainEvent.getEventId(),
+					// domainEvent.getEvent().name(),
+		// domainEvent.getTimestamp(), domainEvent.getPayload(), 1) > 0;
+	}
+}

@@ -16,14 +16,14 @@ public class PickBeginEventTaskHandler extends AbstractMessageListener {
 
 	PickBeginUseCase pickBeginUseCase;
 
-	public PickBeginEventTaskHandler(MessageRouterReceiver messageRouterReceiver, Schema pickBeginXmlSchema,
-			PickBeginUseCase pickBeginUseCase) {
+	public PickBeginEventTaskHandler(final MessageRouterReceiver messageRouterReceiver, final Schema pickBeginXmlSchema,
+			final PickBeginUseCase pickBeginUseCase) {
 		super("mcsBroker", "MCS.PICK.BEGIN.OUT", MessageType.XML, pickBeginXmlSchema, messageRouterReceiver);
 		this.pickBeginUseCase = pickBeginUseCase;
 	}
 
 	@Override
-	protected boolean handleMessage(Object event, boolean isValid) {
+	protected boolean handleMessage(final Object event, final boolean isValid) {
 		return pickBeginUseCase.beginPick(event, isValid);
 
 	}

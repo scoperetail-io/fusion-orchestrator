@@ -16,17 +16,17 @@ public class PickEndEventTaskHandler extends AbstractMessageListener {
 
 	PickEndUseCase pickEndUseCase;
 
-	public PickEndEventTaskHandler(MessageRouterReceiver messageRouterReceiver, Schema pickEndXmlSchema,
-			PickEndUseCase pickEndUseCase) {
+	public PickEndEventTaskHandler(final MessageRouterReceiver messageRouterReceiver, final Schema pickEndXmlSchema,
+			final PickEndUseCase pickEndUseCase) {
 		super("mcsBroker", "MCS.PICK.END.OUT", MessageType.XML, pickEndXmlSchema, messageRouterReceiver);
 		this.pickEndUseCase = pickEndUseCase;
 	}
 
 	@Override
-	protected boolean handleMessage(Object event, boolean isValid) {
+	protected boolean handleMessage(final Object event, final boolean isValid) {
 		return pickEndUseCase.endPick(event, isValid);
 	}
-	
+
 	@Override
 	protected Class getClazz() {
 		return PickingSubSystemOrderCompleteMessage.class;

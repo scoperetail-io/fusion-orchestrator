@@ -1,6 +1,7 @@
 package com.scoperetail.fusion.orchestrator.config;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.xml.validation.Schema;
 
@@ -9,9 +10,11 @@ import org.apache.velocity.exception.VelocityException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 import org.xml.sax.SAXException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.scoperetail.fusion.messaging.schema.util.JaxbUtil;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +45,16 @@ public class SpringOrchestratorConfig {
 	@Bean
 	public Schema pickEndXmlSchema() throws SAXException {
 		return JaxbUtil.getSchema(this.getClass(), PICKING_SUB_SYSTEM_ORDER_COMPLETE_MESSAGE_V1_0_XSD);
+	}
+	
+	@Bean
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper=new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		// String now = objectMapper.writeValueAsString(new SomeClass(LocalDateTime.now()));
+		 //System.out.println(now);
+		 return objectMapper;
 	}
 
 }

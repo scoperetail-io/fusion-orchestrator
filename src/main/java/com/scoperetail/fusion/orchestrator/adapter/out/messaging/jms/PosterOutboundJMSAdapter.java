@@ -15,8 +15,8 @@ public class PosterOutboundJMSAdapter implements PosterOutboundPort {
 	private MessageRouterSender messageSender;
 
 	@Override
-	public boolean post(String brokerId, String queueName, String payload) {
-		return messageSender.send(brokerId, queueName, payload);
+	public void post(final String brokerId, final String queueName, final String payload) {
+		messageSender.send(brokerId, queueName, payload);
 	}
 
 }

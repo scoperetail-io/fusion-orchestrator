@@ -39,20 +39,19 @@ fusion:
       activeConfig: adapterConfig
       configs:
         - name: adapterConfig
-          logLevel: DEBUG
           adapters:
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: scopeBroker
               queueName: ORDER.DROP.OUTBOUND
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: scopeBroker
               queueName: AUDIT.IN
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: scopeBroker
               queueName: ORDER.DROP.ERROR
@@ -61,20 +60,19 @@ fusion:
       activeConfig: adapterConfig
       configs:
         - name: adapterConfig
-          logLevel: DEBUG
           adapters:
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: GIFBroker
               queueName: ORDER.DROP.READER.OUTBOUND
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: scopeBroker
               queueName: AUDIT.IN
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: scopeBroker
               queueName: ORDER.DROP.OUTBOUND.ERROR
@@ -84,15 +82,14 @@ fusion:
       activeConfig: adapterConfig
       configs:
         - name: adapterConfig
-          logLevel: DEBUG
           adapters:
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: scopeBroker
               queueName: AUDIT.IN
             - adapterType: outbound
-              type: rest
+              trasnportType: REST
               usecaseResult: SUCCESS
               hostName: httpbin.org
               port: 443
@@ -102,7 +99,7 @@ fusion:
               requestBodyTemplate: requestBody.vm
               requestHeaderTemplate: requestHeader.vm
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: scopeBroker
               queueName: PICK.BEGIN.OUTBOUND.BO
@@ -112,15 +109,14 @@ fusion:
       activeConfig: adapterConfig
       configs:
         - name: adapterConfig
-          logLevel: DEBUG
           adapters:
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: scopeBroker
               queueName: AUDIT.IN
             - adapterType: outbound
-              type: rest
+              trasnportType: REST
               usecaseResult: SUCCESS
               hostName: httpbin.org
               port: 443
@@ -130,7 +126,7 @@ fusion:
               requestBodyTemplate: requestBody.vm
               requestHeaderTemplate: requestHeader.vm
             - adapterType: outbound
-              type: jms
+              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: scopeBroker
               queueName: PICK.END.OUTBOUND.BO                     

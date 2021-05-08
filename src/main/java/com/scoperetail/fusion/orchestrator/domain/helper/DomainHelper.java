@@ -26,13 +26,13 @@ public final class DomainHelper {
 
 	private VelocityEngine velocityEngine;
 
-	public String generateTextFromTemplate(final Event event, final Object domainEntity, String templateName) {
-		String eventName = event.name();
-		String path = TEMPLATES + File.separator + eventName + File.separator + templateName;
-		Template template = velocityEngine.getTemplate(path);
-		VelocityContext context = new VelocityContext();
+	public String generateTextFromTemplate(final Event event, final Object domainEntity, final String templateName) {
+		final String eventName = event.name();
+		final String path = TEMPLATES + File.separator + eventName + File.separator + templateName;
+		final Template template = velocityEngine.getTemplate(path);
+		final VelocityContext context = new VelocityContext();
 		context.put(EVENT, domainEntity);
-		StringWriter writer = new StringWriter();
+		final StringWriter writer = new StringWriter();
 		template.merge(context, writer);
 		return writer.toString();
 	}
