@@ -1,11 +1,10 @@
 package com.scoperetail.fusion.orchestrator.adapter.in.messaging.jms;
 
+import static com.scoperetail.fusion.messaging.adapter.in.messaging.jms.TaskResult.FAILURE;
+import static com.scoperetail.fusion.messaging.adapter.in.messaging.jms.TaskResult.SUCCESS;
 import static java.util.Optional.ofNullable;
 
-import javax.xml.bind.JAXBException;
 import javax.xml.validation.Schema;
-
-import org.xml.sax.SAXException;
 
 import com.scoperetail.fusion.messaging.adapter.in.messaging.jms.MessageListener;
 import com.scoperetail.fusion.messaging.adapter.in.messaging.jms.TaskResult;
@@ -17,43 +16,40 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractMessageListener implements MessageListener<String> {
 
-	private MessageType messageType;
+	private final MessageType messageType;
 	Schema schema;
 
 	protected enum MessageType {
 		XML, JSON
 	}
 
-	public AbstractMessageListener(String broker, String queue, MessageType messageType, Schema schema,
-			MessageRouterReceiver messageRouterReceiver) {
+	protected AbstractMessageListener(final String broker, final String queue, final MessageType messageType,
+			final Schema schema, final MessageRouterReceiver messageRouterReceiver) {
 		this.messageType = messageType;
 		this.schema = schema;
 		messageRouterReceiver.registerListener(broker, queue, this);
 	}
 
-	public TaskResult doTask(final String message) {
+	@Override
+	public TaskResult doTask(final String message) throws Exception {
 		log.info("The message :: {}", message);
-		boolean isValid = validate(message);
-		Object event = unmarshal(message);
-		TaskResult taskResult = handleMessage(event, isValid) ? TaskResult.SUCCESS : TaskResult.FAILURE;
-		return isValid ? taskResult : TaskResult.DISCARD;
-	}
-
-	private Object unmarshal(final String message) {
 		Object object = message;
-		try {
-			if (messageType == MessageType.XML) {
-				object = JaxbUtil.unmarshal(ofNullable(message), ofNullable(schema), getClazz());
+		boolean isValid = validate(message);
+		if (isValid) {
+			try {
+				if (schema != null) {
+					object = JaxbUtil.unmarshal(ofNullable(message), ofNullable(schema), getClazz());
+				}
+			} catch (final Exception t) {
+				log.error("Unable to unmarshal incoming message: {} Exception occured: {}", message, t);
+				isValid = false;
 			}
-		} catch (SAXException e) {
-			log.error("{}", e);
-		} catch (JAXBException e) {
-			log.error("{}", e);
 		}
-		return object;
+		handleMessage(object, isValid);
+		return isValid ? SUCCESS : FAILURE;
 	}
 
-	protected boolean validate(String message) {
+	protected boolean validate(final String message) {
 		boolean result = true;
 		if (messageType.equals(MessageType.XML)) {
 			result = JaxbUtil.isValidMessage(message, schema);
@@ -61,7 +57,7 @@ public abstract class AbstractMessageListener implements MessageListener<String>
 		return result;
 	}
 
-	protected abstract boolean handleMessage(Object event, boolean isValid);
+	protected abstract void handleMessage(Object event, boolean isValid) throws Exception;
 
 	protected Class getClazz() {
 		return String.class;

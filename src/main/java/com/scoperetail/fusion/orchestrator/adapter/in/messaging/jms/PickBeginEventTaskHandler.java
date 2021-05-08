@@ -6,12 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouterReceiver;
 import com.scoperetail.fusion.messaging.schema.pick.begin.PickingOrderBeginEventMessage;
-import com.scoperetail.fusion.orchestrator.application.port.in.query.PickBeginUseCase;
-
-import lombok.extern.slf4j.Slf4j;
+import com.scoperetail.fusion.orchestrator.application.port.in.command.create.PickBeginUseCase;
 
 @Component
-@Slf4j
 public class PickBeginEventTaskHandler extends AbstractMessageListener {
 
 	PickBeginUseCase pickBeginUseCase;
@@ -23,9 +20,8 @@ public class PickBeginEventTaskHandler extends AbstractMessageListener {
 	}
 
 	@Override
-	protected boolean handleMessage(final Object event, final boolean isValid) {
-		return pickBeginUseCase.beginPick(event, isValid);
-
+	protected void handleMessage(final Object event, final boolean isValid) throws Exception {
+		pickBeginUseCase.beginPick(event, isValid);
 	}
 
 	@Override

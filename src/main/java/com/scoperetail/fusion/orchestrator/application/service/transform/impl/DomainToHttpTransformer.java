@@ -6,18 +6,15 @@ import com.scoperetail.fusion.orchestrator.application.service.transform.Abstrac
 import com.scoperetail.fusion.orchestrator.domain.helper.DomainHelper;
 import com.scoperetail.fusion.shared.kernel.events.Event;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
 public class DomainToHttpTransformer extends AbstractTransformer {
 
-	public DomainToHttpTransformer(DomainHelper domainHelper) {
+	public DomainToHttpTransformer(final DomainHelper domainHelper) {
 		super(domainHelper);
 	}
 
 	@Override
-	public String transform(Event event, Object object, String templateName) {
+	public String transform(final Event event, final Object object, final String templateName) {
 		return getTextFromTemplate(event, object, templateName);
 	}
 

@@ -6,11 +6,11 @@ import com.scoperetail.fusion.shared.kernel.events.Event;
 
 public interface Transformer {
 
-	default String transform(Event event, Object object) throws Exception {
+	default String transform(final Event event, final Object domainEntity) throws Exception {
 		return EMPTY;
 	}
 
-	default String transform(Event event, Object object, String templateName) {
+	default String transform(final Event event, final Object domainEntity, final String templateName) {
 		return EMPTY;
 	}
 }

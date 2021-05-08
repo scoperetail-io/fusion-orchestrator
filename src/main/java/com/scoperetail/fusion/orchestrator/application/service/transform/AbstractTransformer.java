@@ -17,15 +17,13 @@ public abstract class AbstractTransformer implements Transformer {
 
 	protected DomainHelper domainHelper;
 
-	protected final String getTextFromTemplate(Event event, Object entity, String template) {
-		String keyJson = domainHelper.generateTextFromTemplate(event, entity, template);
-		log.trace("Hash key text generated {}", keyJson);
-		return keyJson;
+	protected final String getTextFromTemplate(final Event event, final Object entity, final String template) {
+		return domainHelper.generateTextFromTemplate(event, entity, template);
 	}
 
-	protected final Map<String, String> getkeyMap(String keyJson) throws IOException {
-		Map<String, String> keyMap = JsonUtils.unmarshal(Optional.of(keyJson), Map.class.getCanonicalName());
-		log.trace("Hash key text unmarshaled {}", keyJson);
+	protected final Map<String, String> getkeyMap(final String keyJson) throws IOException {
+		final Map<String, String> keyMap = JsonUtils.unmarshal(Optional.of(keyJson), Map.class.getCanonicalName());
+		log.trace("Key map: {}", keyMap);
 		return keyMap;
 	}
 

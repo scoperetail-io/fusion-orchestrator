@@ -10,20 +10,16 @@ import com.scoperetail.fusion.orchestrator.application.service.transform.Abstrac
 import com.scoperetail.fusion.orchestrator.domain.helper.DomainHelper;
 import com.scoperetail.fusion.shared.kernel.events.Event;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
 public class DomainToXmlTransformer extends AbstractTransformer {
 
-	public DomainToXmlTransformer(DomainHelper domainHelper) {
+	public DomainToXmlTransformer(final DomainHelper domainHelper) {
 		super(domainHelper);
 	}
 
 	@Override
-	public String transform(Event event, Object entity) throws IOException {
-		log.trace("Processing message {}", event);
-		return domainHelper.generateTextFromTemplate(event,entity, OUTBOUND_XML_TEMPLATE);
+	public String transform(final Event event, final Object entity) throws IOException {
+		return domainHelper.generateTextFromTemplate(event, entity, OUTBOUND_XML_TEMPLATE);
 	}
 
 }

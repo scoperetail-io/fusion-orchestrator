@@ -15,7 +15,7 @@ fusion:
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
-      owner: SCOPE
+      owner: FUSION
     - channel: NA
       hostUrl: 'tcp://127.0.0.1:61617'
       brokerId: GIFBroker

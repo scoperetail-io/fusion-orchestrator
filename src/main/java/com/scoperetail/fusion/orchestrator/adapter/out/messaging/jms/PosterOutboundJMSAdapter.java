@@ -17,6 +17,7 @@ public class PosterOutboundJMSAdapter implements PosterOutboundPort {
 	@Override
 	public void post(final String brokerId, final String queueName, final String payload) {
 		messageSender.send(brokerId, queueName, payload);
+		log.trace("Sent Message to Broker Id:{}  Queue: {} Message: {}", brokerId, queueName, payload);
 	}
 
 }

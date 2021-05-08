@@ -24,14 +24,20 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 	private PosterUseCase posterUseCase;
 
 	@Override
-	public ResponseEntity<ModelApiResponse> orderDropEvent(OrderDropEvent orderDropEventRequest) {
-		boolean result = posterUseCase.post(OrderDropEvent, orderDropEventRequest, true);
+	public ResponseEntity<ModelApiResponse> orderDropEvent(final OrderDropEvent orderDropEventRequest) {
+		boolean result = false;
+		try {
+			posterUseCase.post(OrderDropEvent, orderDropEventRequest, true);
+			result = true;
+		} catch (final Exception e) {
+			log.error("Exception occured during processing event {} exception is: {}", OrderDropEvent, e);
+		}
 		return ResponseEntity.ok(buildResult(result));
 	}
 
-	private ModelApiResponse buildResult(boolean result) {
-		HttpStatus httpStatus = result ? ACCEPTED : INTERNAL_SERVER_ERROR;
-		ModelApiResponse response = new ModelApiResponse();
+	private ModelApiResponse buildResult(final boolean result) {
+		final HttpStatus httpStatus = result ? ACCEPTED : INTERNAL_SERVER_ERROR;
+		final ModelApiResponse response = new ModelApiResponse();
 		response.setCode(httpStatus.value());
 		response.setMessage(httpStatus.getReasonPhrase());
 		response.setType(httpStatus.name());

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Component;
 import com.scoperetail.fusion.shared.kernel.events.Event;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public final class DomainHelper {
 
 	private static final String EVENT = "EVENT";
@@ -27,14 +29,15 @@ public final class DomainHelper {
 	private VelocityEngine velocityEngine;
 
 	public String generateTextFromTemplate(final Event event, final Object domainEntity, final String templateName) {
-		final String eventName = event.name();
-		final String path = TEMPLATES + File.separator + eventName + File.separator + templateName;
+		final String path = TEMPLATES + File.separator + event.name() + File.separator + templateName;
 		final Template template = velocityEngine.getTemplate(path);
 		final VelocityContext context = new VelocityContext();
 		context.put(EVENT, domainEntity);
 		final StringWriter writer = new StringWriter();
 		template.merge(context, writer);
-		return writer.toString();
+		final String text = writer.toString();
+		log.trace("Generated text for Event: {} from Template: {} Text: {}", event, template, text);
+		return text;
 	}
 
 }

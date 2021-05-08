@@ -21,36 +21,38 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class JsonUtils {
-	private JsonUtils() {
-	}
+public final class JsonUtils {
 
 	static final ObjectMapper mapper;
+
+	private JsonUtils() {
+	}
 
 	static {
 		mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
-		JavaTimeModule module = new JavaTimeModule();
-		 mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
+		final JavaTimeModule module = new JavaTimeModule();
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME));
 		module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
 		module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_TIME));
 		module.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_TIME));
 	}
 
-	public static final <T> T unmarshal(final Optional<String> message, Optional<TypeReference<T>> typeReference)
+	public static final <T> T unmarshal(final Optional<String> message, final Optional<TypeReference<T>> typeReference)
 			throws IOException {
-		String incomingMessage = message.orElseThrow(() -> new IOException("Unable to unmarshal :: Message = null"));
-		TypeReference<T> incomingType = typeReference
+		final String incomingMessage = message
+				.orElseThrow(() -> new IOException("Unable to unmarshal :: Message = null"));
+		final TypeReference<T> incomingType = typeReference
 				.orElseThrow(() -> new IOException("Unable to unmarshal :: Type = null"));
 		log.debug("Trying to unmarshal json message {} into {} type", incomingMessage, incomingType);
 		return mapper.readValue(incomingMessage, incomingType);
 	}
 
-	public static final <T> T unmarshal(final Optional<String> message, String canonicalName) throws IOException {
-		String incomingMessage = message.orElseThrow(() -> new IOException("Unable to unmarshal :: Message = null"));
-		JavaType javaType = TypeFactory.defaultInstance().constructFromCanonical(canonicalName);
+	public static final <T> T unmarshal(final Optional<String> message, final String canonicalName) throws IOException {
+		final String incomingMessage = message
+				.orElseThrow(() -> new IOException("Unable to unmarshal :: Message = null"));
+		final JavaType javaType = TypeFactory.defaultInstance().constructFromCanonical(canonicalName);
 		log.debug("Trying to unmarshal json message {} into {} type", incomingMessage, javaType);
 		return mapper.readValue(incomingMessage, javaType);
 	}

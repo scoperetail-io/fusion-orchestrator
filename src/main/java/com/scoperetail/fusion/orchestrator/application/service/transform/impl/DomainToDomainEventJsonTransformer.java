@@ -20,25 +20,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DomainToDomainEventJsonTransformer extends AbstractTransformer {
 
-	public DomainToDomainEventJsonTransformer(DomainHelper domainHelper) {
+	public DomainToDomainEventJsonTransformer(final DomainHelper domainHelper) {
 		super(domainHelper);
 	}
 
 	@Override
-	public String transform(Event event, Object entity) throws Exception {
+	public String transform(final Event event, final Object domainEntity) throws Exception {
 		String keyHash = null;
 		Map<String, String> keyMap = null;
-		log.trace("Processing message {}", event);
-		String payload = JsonUtils.marshal(Optional.ofNullable(entity));
-		log.trace("Marshalled message {}", event);
-		String keyJson = getTextFromTemplate(event, entity, HASH_KEY_TEMPLATE);
+		log.trace("Event: {}", event);
+		final String payload = JsonUtils.marshal(Optional.ofNullable(domainEntity));
+		log.trace("Marshalled domain entity: {}", payload);
+		final String keyJson = getTextFromTemplate(event, domainEntity, HASH_KEY_TEMPLATE);
 		keyMap = getkeyMap(keyJson);
 		keyHash = HashUtil.getHash(keyJson);
-		log.trace("Created hash of hash key {}", event);
 
-		DomainEvent domainEvent = DomainEvent.builder().eventId(keyHash).event(event).keyMap(keyMap).payload(payload)
-				.build();
+		final DomainEvent domainEvent = DomainEvent.builder().eventId(keyHash).event(event).keyMap(keyMap)
+				.payload(payload).build();
 		return JsonUtils.marshal(Optional.ofNullable(domainEvent));
 	}
-
 }
