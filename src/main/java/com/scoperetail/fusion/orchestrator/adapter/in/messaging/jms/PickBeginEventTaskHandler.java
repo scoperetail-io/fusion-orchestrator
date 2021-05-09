@@ -11,11 +11,12 @@ import com.scoperetail.fusion.orchestrator.application.port.in.command.create.Pi
 @Component
 public class PickBeginEventTaskHandler extends AbstractMessageListener {
 
-	PickBeginUseCase pickBeginUseCase;
+	private final PickBeginUseCase pickBeginUseCase;
 
 	public PickBeginEventTaskHandler(final MessageRouterReceiver messageRouterReceiver, final Schema pickBeginXmlSchema,
 			final PickBeginUseCase pickBeginUseCase) {
-		super("mcsBroker", "MCS.PICK.BEGIN.OUT", MessageType.XML, pickBeginXmlSchema, messageRouterReceiver);
+		super("mcsBroker", "MCS.PICK.OUT", MessageType.XML, pickBeginXmlSchema, messageRouterReceiver,
+				"pickingOrderBeginEventMessage");
 		this.pickBeginUseCase = pickBeginUseCase;
 	}
 

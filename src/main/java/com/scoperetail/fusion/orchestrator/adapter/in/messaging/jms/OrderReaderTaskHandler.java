@@ -9,11 +9,11 @@ import com.scoperetail.fusion.shared.kernel.events.DomainEvent;
 @Component
 public class OrderReaderTaskHandler extends AbstractMessageListener {
 
-	OrderReaderUseCase orderReaderUseCase;
+	private final OrderReaderUseCase orderReaderUseCase;
 
 	public OrderReaderTaskHandler(final MessageRouterReceiver messageRouterReceiver,
 			final OrderReaderUseCase orderReaderUseCase) {
-		super("fusionBroker", "ORDER.DROP.OUTBOUND", MessageType.JSON, null, messageRouterReceiver);
+		super("fusionBroker", "ORDER.DROP.OUTBOUND", MessageType.JSON, null, messageRouterReceiver, null);
 		this.orderReaderUseCase = orderReaderUseCase;
 	}
 
