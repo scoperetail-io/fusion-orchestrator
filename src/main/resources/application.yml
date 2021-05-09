@@ -1,29 +1,12 @@
 fusion:
   brokers:
     - channel: NA
-      hostUrl: 'tcp://127.0.0.1:61615'
-      brokerId: mcsBroker
-      jmsProvider: ACTIVEMQ
-      queueManagerName: NA
-      sendSessionCacheSize: 10
-      userName: admin
-      owner: MCS
-    - channel: NA
       hostUrl: 'tcp://127.0.0.1:61616'
       brokerId: fusionBroker
       jmsProvider: ACTIVEMQ
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
-      owner: FUSION
-    - channel: NA
-      hostUrl: 'tcp://127.0.0.1:61617'
-      brokerId: GIFBroker
-      jmsProvider: ACTIVEMQ
-      queueManagerName: NA
-      sendSessionCacheSize: 10
-      userName: admin
-      owner: GIF
   retryPolicies:
     - policyType: REALTIME
       maxAttempt: 3
@@ -50,6 +33,7 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -64,13 +48,16 @@ fusion:
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
-              brokerId: GIFBroker
+              brokerId: fusionBroker
               queueName: ORDER.DROP.READER.OUTBOUND
+              transformationType: TEMPLATE_TRANSFORMER
+              template: OrderDropEventReader.vm
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -88,6 +75,7 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
@@ -95,9 +83,10 @@ fusion:
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: uri.vm
-              requestBodyTemplate: requestBody.vm
-              requestHeaderTemplate: requestHeader.vm
+              uriTemplate: PickBeginEvent_uri.vm
+              requestBodyTemplate: PickBeginEvent_requestBody.vm
+              requestHeaderTemplate: PickBeginEvent_requestHeader.vm
+              transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -115,6 +104,7 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
@@ -122,11 +112,12 @@ fusion:
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: uri.vm
-              requestBodyTemplate: requestBody.vm
-              requestHeaderTemplate: requestHeader.vm
+              uriTemplate: PickEndEvent_uri.vm
+              requestBodyTemplate: PickEndEvent_requestBody.vm
+              requestHeaderTemplate: PickEndEvent_requestHeader.vm
+              transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: PICK.END.OUTBOUND.BO                     
+              queueName: PICK.END.OUTBOUND.BO     

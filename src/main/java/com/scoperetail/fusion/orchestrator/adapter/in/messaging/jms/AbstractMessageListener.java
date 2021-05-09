@@ -32,7 +32,7 @@ public abstract class AbstractMessageListener implements MessageListener<String>
 	}
 
 	protected AbstractMessageListener(final String broker, final String queue, final MessageType messageType,
-			final Schema schema, final MessageRouterReceiver messageRouterReceiver, final String messageIdentifier) {
+			final Schema schema, final String messageIdentifier, final MessageRouterReceiver messageRouterReceiver) {
 		this.messageType = messageType;
 		this.schema = schema;
 		this.messageIdentifier = messageIdentifier;

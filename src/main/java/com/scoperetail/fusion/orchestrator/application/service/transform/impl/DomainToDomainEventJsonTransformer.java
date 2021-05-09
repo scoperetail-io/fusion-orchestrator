@@ -25,7 +25,7 @@ public class DomainToDomainEventJsonTransformer extends AbstractTransformer {
 	}
 
 	@Override
-	public String transform(final Event event, final Object domainEntity) throws Exception {
+	public String transform(final Event event, final Object domainEntity, final String templateName) throws Exception {
 		String keyHash = null;
 		Map<String, String> keyMap = null;
 		log.trace("Event: {}", event);

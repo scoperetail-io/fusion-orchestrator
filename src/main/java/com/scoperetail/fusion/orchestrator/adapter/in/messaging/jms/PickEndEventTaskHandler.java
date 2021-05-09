@@ -15,8 +15,8 @@ public class PickEndEventTaskHandler extends AbstractMessageListener {
 
 	public PickEndEventTaskHandler(final MessageRouterReceiver messageRouterReceiver, final Schema pickEndXmlSchema,
 			final PickEndUseCase pickEndUseCase) {
-		super("mcsBroker", "MCS.PICK.OUT", MessageType.XML, pickEndXmlSchema, messageRouterReceiver,
-				"PickingSubSystemOrderCompleteMessage");
+		super("fusionBroker", "MCS.PICK.OUT", MessageType.XML, pickEndXmlSchema, "PickingSubSystemOrderCompleteMessage",
+				messageRouterReceiver);
 		this.pickEndUseCase = pickEndUseCase;
 	}
 

@@ -13,7 +13,7 @@ public class OrderReaderTaskHandler extends AbstractMessageListener {
 
 	public OrderReaderTaskHandler(final MessageRouterReceiver messageRouterReceiver,
 			final OrderReaderUseCase orderReaderUseCase) {
-		super("fusionBroker", "ORDER.DROP.OUTBOUND", MessageType.JSON, null, messageRouterReceiver, null);
+		super("fusionBroker", "ORDER.DROP.OUTBOUND", MessageType.JSON, null, null, messageRouterReceiver);
 		this.orderReaderUseCase = orderReaderUseCase;
 	}
 

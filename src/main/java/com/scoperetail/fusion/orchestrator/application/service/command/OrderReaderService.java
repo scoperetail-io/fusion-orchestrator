@@ -10,7 +10,6 @@ import com.scoperetail.fusion.orchestrator.application.port.in.command.create.Po
 import com.scoperetail.fusion.orchestrator.common.JsonUtils;
 import com.scoperetail.fusion.orchestrator.domain.OrderDropEvent;
 import com.scoperetail.fusion.shared.kernel.common.annotation.UseCase;
-import com.scoperetail.fusion.shared.kernel.events.DomainEvent;
 
 import lombok.AllArgsConstructor;
 
@@ -22,15 +21,10 @@ public class OrderReaderService implements OrderReaderUseCase {
 
 	@Override
 	public void readOrder(final Object message, final boolean isValid) throws Exception {
-		final OrderDropEvent orderDropEvent = unmarshal(message);
-		posterUseCase.post(OrderDropEventReader, orderDropEvent, isValid);
+		posterUseCase.post(OrderDropEventReader, unmarshal(message), isValid);
 	}
 
 	private OrderDropEvent unmarshal(final Object message) throws IOException {
-		final DomainEvent domainEvent = JsonUtils.unmarshal(Optional.ofNullable(message.toString()),
-				DomainEvent.class.getCanonicalName());
-		return JsonUtils.unmarshal(Optional.ofNullable(domainEvent.getPayload()),
-				OrderDropEvent.class.getCanonicalName());
+		return JsonUtils.unmarshal(Optional.ofNullable(message.toString()), OrderDropEvent.class.getCanonicalName());
 	}
-
 }

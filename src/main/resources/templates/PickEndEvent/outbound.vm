@@ -1,4 +1,0 @@
-<Outbound>
-  <CountryCode>$EVENT.messageBody.routingInfo.sourceNode.location.countryCode</CountryCode>
-<Outbound>
-

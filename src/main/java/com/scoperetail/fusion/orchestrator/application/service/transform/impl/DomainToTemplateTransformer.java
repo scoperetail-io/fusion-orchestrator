@@ -7,15 +7,14 @@ import com.scoperetail.fusion.orchestrator.domain.helper.DomainHelper;
 import com.scoperetail.fusion.shared.kernel.events.Event;
 
 @Component
-public class DomainToHttpTransformer extends AbstractTransformer {
+public class DomainToTemplateTransformer extends AbstractTransformer {
 
-	public DomainToHttpTransformer(final DomainHelper domainHelper) {
+	public DomainToTemplateTransformer(final DomainHelper domainHelper) {
 		super(domainHelper);
 	}
 
 	@Override
-	public String transform(final Event event, final Object object, final String templateName) {
-		return getTextFromTemplate(event, object, templateName);
+	public String transform(final Event event, final Object entity, final String templateName) {
+		return domainHelper.generateTextFromTemplate(event, entity, templateName);
 	}
-
 }

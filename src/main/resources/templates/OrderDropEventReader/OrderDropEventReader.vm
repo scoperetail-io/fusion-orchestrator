@@ -1,3 +1,4 @@
+ORDER DROP READER OUTBOUND
 <Outbound>
   <CountryCode>$EVENT.routingInfo.sourceNode.location.countryCode</CountryCode>
 <Outbound>
