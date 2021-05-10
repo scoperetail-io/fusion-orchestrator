@@ -1,0 +1,1 @@
+{"hello": "$EVENT.messageBody.routingInfo.sourceNode.location.countryCode"}

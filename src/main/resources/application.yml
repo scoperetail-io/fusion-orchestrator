@@ -1,0 +1,123 @@
+fusion:
+  brokers:
+    - channel: NA
+      hostUrl: 'tcp://127.0.0.1:61616'
+      brokerId: fusionBroker
+      jmsProvider: ACTIVEMQ
+      queueManagerName: NA
+      sendSessionCacheSize: 10
+      userName: admin
+  retryPolicies:
+    - policyType: REALTIME
+      maxAttempt: 3
+      backoffMS: 1000
+      type: Fixed
+    - policyType: OFFLINE
+      maxAttempt: 5
+      backoffMS: 2000
+      type: Exponential
+  usecases:
+    - name: OrderDropEvent
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          adapters:
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: ORDER.DROP.OUTBOUND
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: FAILURE
+              brokerId: fusionBroker
+              queueName: ORDER.DROP.ERROR
+    - name: OrderDropEventReader
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          adapters:
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: ORDER.DROP.READER.OUTBOUND
+              transformationType: TEMPLATE_TRANSFORMER
+              template: OrderDropEventReader.vm
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: FAILURE
+              brokerId: fusionBroker
+              queueName: ORDER.DROP.OUTBOUND.ERROR
+             
+    - name: PickBeginEvent
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          adapters:
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: REST
+              usecaseResult: SUCCESS
+              hostName: httpbin.org
+              port: 443
+              protocol: https
+              methodType: POST
+              uriTemplate: PickBeginEvent_uri.vm
+              requestBodyTemplate: PickBeginEvent_requestBody.vm
+              requestHeaderTemplate: PickBeginEvent_requestHeader.vm
+              transformationType: TEMPLATE_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: FAILURE
+              brokerId: fusionBroker
+              queueName: PICK.BEGIN.OUTBOUND.BO
+              
+    - name: PickEndEvent
+      version: 1
+      activeConfig: adapterConfig
+      configs:
+        - name: adapterConfig
+          adapters:
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: REST
+              usecaseResult: SUCCESS
+              hostName: httpbin.org
+              port: 443
+              protocol: https
+              methodType: POST
+              uriTemplate: PickEndEvent_uri.vm
+              requestBodyTemplate: PickEndEvent_requestBody.vm
+              requestHeaderTemplate: PickEndEvent_requestHeader.vm
+              transformationType: TEMPLATE_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: FAILURE
+              brokerId: fusionBroker
+              queueName: PICK.END.OUTBOUND.BO     
