@@ -18,6 +18,7 @@
 		<java.version>1.11</java.version>
 		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<lombok.version>1.18.12</lombok.version>
+		<spotless.version>2.10.0</spotless.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -114,11 +115,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>com.scoperetail.fusion</groupId>
-			<artifactId>fusion-audit-persistence</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.scoperetail.fusion</groupId> <artifactId>fusion-audit-persistence</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> -->
 	</dependencies>
 
 	<build>
@@ -142,6 +140,51 @@
 						</path>
 					</annotationProcessorPaths>
 					<generatedSourcesDirectory>${project.build.directory}/generated-sources</generatedSourcesDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>${spotless.version}</version>
+				<configuration>
+					<!-- optional: limit format enforcement to just the files changed by 
+						this feature branch -->
+					<ratchetFrom>master</ratchetFrom>
+					<formats>
+						<!-- you can define as many formats as you want, each is independent -->
+						<format>
+							<!-- define the files to apply to -->
+							<includes>
+								<include>*.md</include>
+								<include>.gitignore</include>
+							</includes>
+							<!-- define the steps to apply to those files -->
+							<trimTrailingWhitespace />
+							<endWithNewline />
+							<indent>
+								<tabs>true</tabs>
+								<spacesPerTab>4</spacesPerTab>
+							</indent>
+						</format>
+					</formats>
+					<!-- define a language-specific format -->
+					<java>
+						<!-- no need to specify files, inferred automatically, but you can 
+							if you want -->
+
+						<!-- apply a specific flavor of google-java-format -->
+						<googleJavaFormat>
+							<version>1.8</version>
+							<style>GOOGLE</style>
+						</googleJavaFormat>
+
+						<!-- make sure every file has the following copyright header. optionally, 
+							Spotless can set copyright years by digging through git history (see "license" 
+							section below) -->
+						<licenseHeader>
+							<content>/* ScopeRetail (C)$YEAR */</content>  <!-- or <file>${basedir}/license-header</file> -->
+						</licenseHeader>
+					</java>
 				</configuration>
 			</plugin>
 		</plugins>
