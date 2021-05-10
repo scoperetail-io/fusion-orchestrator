@@ -71,12 +71,6 @@ fusion:
         - name: adapterConfig
           adapters:
             - adapterType: outbound
-              trasnportType: JMS
-              usecaseResult: SUCCESS
-              brokerId: fusionBroker
-              queueName: AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
-            - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
               hostName: httpbin.org
@@ -89,9 +83,16 @@ fusion:
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER              
+            - adapterType: outbound
+              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
               queueName: PICK.BEGIN.OUTBOUND.BO
+              
               
     - name: PickEndEvent
       version: 1
@@ -99,12 +100,6 @@ fusion:
       configs:
         - name: adapterConfig
           adapters:
-            - adapterType: outbound
-              trasnportType: JMS
-              usecaseResult: SUCCESS
-              brokerId: fusionBroker
-              queueName: AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
@@ -118,6 +113,12 @@ fusion:
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
+              usecaseResult: SUCCESS
+              brokerId: fusionBroker
+              queueName: AUDIT.IN
+              transformationType: DOMAIN_EVENT_TRANSFORMER              
+            - adapterType: outbound
+              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: PICK.END.OUTBOUND.BO     
+              queueName: PICK.END.OUTBOUND.BO  

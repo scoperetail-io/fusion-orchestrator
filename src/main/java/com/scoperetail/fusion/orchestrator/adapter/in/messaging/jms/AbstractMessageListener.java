@@ -1,3 +1,4 @@
+/* ScopeRetail (C)2021 */
 package com.scoperetail.fusion.orchestrator.adapter.in.messaging.jms;
 
 import static com.scoperetail.fusion.messaging.adapter.in.messaging.jms.TaskResult.FAILURE;
@@ -58,7 +59,6 @@ public abstract class AbstractMessageListener implements MessageListener<String>
 
 	@Override
 	public TaskResult doTask(final String message) throws Exception {
-		log.info("The message :: {}", message);
 		Object object = message;
 		boolean isValid = validate(message);
 		if (isValid) {
@@ -107,5 +107,4 @@ public abstract class AbstractMessageListener implements MessageListener<String>
 	private boolean isValidJsonMessageIdentifier(final String message) {
 		return true;
 	}
-
 }
