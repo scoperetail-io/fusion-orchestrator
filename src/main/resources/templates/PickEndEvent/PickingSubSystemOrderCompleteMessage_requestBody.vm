@@ -1,0 +1,46 @@
+[
+  {
+    "eventName": "PICK_COMPLETE",
+    "eventTs": "$date.get('yyyy-MM-dd')T$date.get('HH:mm:ss')",
+    "eventPayload": {
+      "pickCompleteDetails": [
+        {
+          "fulfillOrdNbr": "$EVENT.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.orderNbr",
+          "lines": [
+           #foreach($line in $EVENT.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line)
+            {
+              "orderLine": "$line.lineNbr",
+              "qtyToFulfill": "$line.orderedQty",  //is it orderedWeight??
+              "pickDetails": [
+               #foreach($pickDetail in $EVENT.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line.pickDetails)
+                {
+                  "pickQty": "$pickDetail.pickQty",
+                  "pickType": "$pickDetail.pickType",
+                  "pickUpcNbr": "$pickDetail.pickUpcNbr",
+                  "upcTypeCd": "5100",                          //NA ????
+                  "pickedUser": "$pickDetail.pickedUser",
+                  "pickDisplayTs": "$pickDetail.pickDisplayTs", 
+                  "pickedTs": "$pickDetail.pickedTs",
+                  "pickUom": "$pickDetail.pickUom",
+                  "container": [   //Not a list
+                    {
+                      "pickQty": 1,
+                      "pickWeight": 5,
+                      "containerNbr": "A64723"
+                    }
+                  ],
+                  "pickLocation": "MFC",  //NA ??
+                  "pickPriceEmbeddedUpcNbr": "$pickDetail.pickPriceEmbeddedUpcNbr",
+                  "gtinPriceAmt": 14.8,                          ////NA ????
+                  "pickWeight": $pickDetail.pickWeight
+                }
+               #end
+              ]
+            }
+            #end
+          ]
+        }
+      ]
+    }
+  }
+]

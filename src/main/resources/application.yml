@@ -51,7 +51,7 @@ fusion:
               brokerId: fusionBroker
               queueName: ORDER.DROP.READER.OUTBOUND
               transformationType: TEMPLATE_TRANSFORMER
-              template: OrderDropEventReader.vm
+              template: PickingSubsystemOrderReleaseMessage.vm
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
@@ -78,7 +78,7 @@ fusion:
               protocol: https
               methodType: POST
               uriTemplate: PickBeginEvent_uri.vm
-              requestBodyTemplate: PickBeginEvent_requestBody.vm
+              requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.vm
               requestHeaderTemplate: PickBeginEvent_requestHeader.vm
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
@@ -108,7 +108,7 @@ fusion:
               protocol: https
               methodType: POST
               uriTemplate: PickEndEvent_uri.vm
-              requestBodyTemplate: PickEndEvent_requestBody.vm
+              requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.vm
               requestHeaderTemplate: PickEndEvent_requestHeader.vm
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound

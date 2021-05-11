@@ -1,0 +1,24 @@
+[
+  {
+    "eventName": "PICK_BEGIN",
+    "eventTs": "$date.get('yyyy-MM-dd')T$date.get('HH:mm:ss')",
+    "eventPayload": {
+      "fulfillmentOrders": [
+      #foreach($fulfillmentOrder in $EVENT.messageBody.orderBeginEvent.fulfillmentOrders.fulfillmentOrder)
+        {
+          "orderNbr": $fulfillmentOrder.orderNbr,
+          "priorityCode": $fulfillmentOrder.priorityCode
+        }
+       #end
+      ]
+    },
+    "MessageExtensions": [
+      #foreach($extension in $EVENT.messageBody.messageExtensions.messageExtension)
+       {
+          "name": $extension.name,
+          "value": $extension.value
+       }
+      #end
+     ]
+  }
+]

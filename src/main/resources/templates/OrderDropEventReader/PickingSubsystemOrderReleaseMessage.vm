@@ -1,0 +1,71 @@
+<PickingSubSystemOrderReleaseMessage xmlns="http://www.xmlns.walmartstores.com/SuppyChain/FulfillmentManagement/GlobalIntegeratedFulfillment/Picking/PickingSubSystemOrderReleaseMessage/1.0/" xmlns:hdr="http://www.xmlns.walmartstores.com/Header/datatypes/MessageHeader/1.4/">
+  <hdr:MessageHeader>
+    <hdr:SubId>SUB-EIC-UPDPICK-V1</hdr:SubId>
+    <hdr:CnsmrId>CON-NODE-UPDPICK-V1</hdr:CnsmrId>
+    <hdr:SrvcNm>UpdateFulfillmentPicking.subSystemOrderRelease</hdr:SrvcNm>
+    <hdr:TranId>$EVENT.order.fulfillmentOrder.orderNbr</hdr:TranId>
+    <hdr:Version>1.0</hdr:Version>
+  </hdr:MessageHeader>
+  <MessageBody>
+    <RoutingInfo>
+      <SourceNode>
+        <location>
+          <countryCode>$EVENT.routingInfo.sourceNode.location.countryCode</countryCode>
+        </location>
+        <nodeID>$EVENT.routingInfo.sourceNode.nodeID</nodeID>
+      </SourceNode>
+      <DestinationNode>
+        <location>
+          <countryCode>$EVENT.routingInfo.destinationNode.location.countryCode</countryCode>
+        </location>
+        <nodeID>$EVENT.routingInfo.destinationNode.nodeID</nodeID>
+        <cNodeID>$EVENT.routingInfo.destinationNode.cNodeID</cNodeID>
+      </DestinationNode>
+    </RoutingInfo>
+    <Order>
+      <node>
+        <nodeId>$EVENT.order.node.nodeId</nodeId>
+        <countryCode>$EVENT.order.node.countryCode</countryCode>
+      </node>
+      <fulfillmentOrder>
+        <orderNbr>$EVENT.order.fulfillmentOrder.orderNbr</orderNbr>
+        <orderPriority>
+          <code>1</code>
+          <description>Grocery Pickup Default</description>
+        </orderPriority>
+        <type code="6" name="$EVENT.order.fulfillmentOrder.type.name"/>
+        <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
+        <pickDueTime>$EVENT.order.fulfillmentOrder.pickDueTime</pickDueTime>
+        <expectedOrderPickupTime>$EVENT.order.fulfillmentOrder.expectedOrderPickupTime</expectedOrderPickupTime>
+        <earliestPickTime>$EVENT.order.fulfillmentOrder.earliestPickTime</earliestPickTime>
+        <orderSequenceNumber>$EVENT.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
+        <loadGroupNumber>$EVENT.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
+        <carrierBagAllowed>$EVENT.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
+        <recordCarrierBagCount>$EVENT.order.fulfillmentOrder.recordCarrierBagCount</recordCarrierBagCount>
+
+        <lines>
+            #foreach($line in $EVENT.order.fulfillmentOrder.lines)
+                <line>
+                    <lineNbr>$line.lineNbr</lineNbr>
+                    <upc>$line.upc</upc>
+                    <qty>$line.qty</qty>
+                    <weight>$line.weight</weight>
+                    <pickByType>$line.pickByType</pickByType>
+                    <substitutionAllowed>$line.substitutionAllowed</substitutionAllowed>
+                    <itemNbr>$line.itemNbr</itemNbr>
+                    <uom>$line.itemNbr</uom>
+                    <crossRefs>
+                        #foreach($crossRef in $line.crossRefs)
+                            <crossRef>
+                                <upc>$crossRef.upc</upc>
+                                <itemNbr>$crossRef.itemNbr</itemNbr>
+                            </crossRef>
+                        #end
+                    </crossRefs>
+                </line>
+            #end
+        </lines>
+      </fulfillmentOrder>
+    </Order>
+  </MessageBody>
+</PickingSubSystemOrderReleaseMessage>
