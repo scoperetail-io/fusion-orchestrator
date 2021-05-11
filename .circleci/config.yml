@@ -44,6 +44,7 @@ jobs:
             if [[ -z "$RELEASE" && "${CIRCLE_BRANCH}" != "master" ]]; then
               mvn -s .circleci/.circleci.settings.xml -DskipTests deploy
             fi
+
       #Maven Release
       - run:
           name: Perform Maven Release
@@ -55,6 +56,7 @@ jobs:
                     RELEASE="Yes"
                     ADDITIONAL_PARAMS="--set-upstream origin $CIRCLE_BRANCH"
                     mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:prepare -Dmaven.test.skip=true
+
                     mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:perform -Dmaven.test.skip=true
             fi
       #Save Cache
@@ -64,9 +66,7 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
 workflows:
-  version: 2.0
+  version: 2
   build_in_server:
     jobs:
       - build
-          
-          
