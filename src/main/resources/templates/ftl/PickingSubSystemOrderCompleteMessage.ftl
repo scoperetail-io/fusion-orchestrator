@@ -1,62 +1,45 @@
-<PickingSubSystemOrderCompleteMessage xmlns="http://www.xmlns.walmartstores.com/SuppyChain/FulfillmentManagement/GlobalIntegeratedFulfillment/Picking/SubsystemPickOrderComplete/1.0/" xmlns:flt="http://www.xmlns.walmartstores.com/Fault/datatypes/MessageFault/1.0/" xmlns:hdr="http://www.xmlns.walmartstores.com/Header/datatypes/MessageHeader/1.4/">
-  <hdr:MessageHeader>
-    <hdr:SubId>SUB-EIC-ALPHAEVNT-V1</hdr:SubId>
-    <hdr:CnsmrId>CON-ALPHA-V1</hdr:CnsmrId>
-    <hdr:SrvcNm>FulfillmentPicking.subSystemOrderComplete</hdr:SrvcNm>
-    <hdr:AppId>ALPHA</hdr:AppId>
-    <hdr:TranId>${eventPayload.pickCompleteDetails.fulfillOrdNbr}</hdr:TranId>
-    <hdr:Version>1.0</hdr:Version>
-  </hdr:MessageHeader>
-  <MessageBody>
-    <RoutingInfo>
-      <SourceNode>
-        <location>
-          <countryCode>US</countryCode>
-        </location>
-        <cNodeID>ALPHA</cNodeID>
-      </SourceNode>
-      <DestinationNode>
-        <location>
-          <countryCode>US</countryCode>
-        </location>
-        <nodeID>2142</nodeID>
-      </DestinationNode>
-    </RoutingInfo>
-    <PickOrderComplete>
-      <node>
-        <nodeId>2142</nodeId>
-        <countryCode>US</countryCode>
-      </node>
-      <fulfillmentOrder>
-        <orderNbr>${eventPayload.pickCompleteDetails.fulfillOrdNbr}</orderNbr>
-        <lines>
-            <#list eventPayload.pickCompleteDetails.lines as line>
-              <line>
-                <lineNbr>${line.orderLine}}</lineNbr>
-                <orderedQty>${line.qtyToFulfill}</orderedQty>
-                <pickDetails>
-                  <#list line.pickDetails as pickDetail>
-                      <pickDisplayTs>${pickDetail.pickDisplayTs}</pickDisplayTs>
-                      <pickType>${pickDetail.pickType}</pickType>
-                      <pickQty>${pickDetail.pickQty}</pickQty>
-                      <pickUom>${pickDetail.pickUom}</pickUom>
-                      <pickedUser>${pickDetail.pickedUser}</pickedUser>
-                      <pickedTs>${pickDetail.pickedTs}</pickedTs>
-                      <pickUpcNbr>${pickDetail.pickUpcNbr}</pickUpcNbr>
-                      <container>
-                        <#list pickDetail.container as contain>
-                            <tempBandCd>1</tempBandCd>
-                            <containerNbr>${contain.containerNbr}</containerNbr>
-                            <location>Alpha</location>
-                        </#list>
-                      </container>
-                      <unitPrice>0.0</unitPrice>
-                  </#list>
-                </pickDetails>
-              </line>
-            </#list>
-        </lines>
-      </fulfillmentOrder>
-    </PickOrderComplete>
-  </MessageBody>
-</PickingSubSystemOrderCompleteMessage>
+<#assign aDateTime = .now>
+[
+  {
+    "eventName": "PICK_COMPLETE",
+    "eventTs" : "${aDateTime?string.xs_ms_nz}",
+    "eventPayload": {
+      "pickCompleteDetails": [{
+        "fulfillOrdNbr": "${messageBody.pickingSubSystemOrderComplete.fulfillmentOrder.orderNbr}",
+        "lines": [
+        <#list messageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line as ln>
+        {
+          "orderLine": "${ln.lineNbr}",
+          "qtyToFulfill": "${ln.orderedQty}",
+          "pickDetails": [
+          <#list ln.pickDetails as pickDetail>
+          {
+            "pickQty": "${pickDetail.pickQty}",
+            "pickType": "${pickDetail.pickType}",
+            "pickUpcNbr": "${pickDetail.pickUpcNbr}",
+            "upcTypeCd": "5100",
+            "pickedUser": "${pickDetail.pickedUser}",
+            "pickDisplayTs": "${pickDetail.pickDisplayTs}",
+            "pickedTs": "${pickDetail.pickedTs}",
+            "pickUom": "${pickDetail.pickUom}",
+            "container": [{
+              "pickQty": 1,
+              "pickWeight": 5.0,
+              "containerNbr": "A64723"
+            }],
+            "pickLocation": "MFC",
+            "pickPriceEmbeddedUpcNbr": "${pickDetail.pickPriceEmbeddedUpcNbr}",
+            "gtinPriceAmt": 14.8,
+            "pickWeight": 5.0
+          }
+          <#if pickDetail_has_next>,</#if>
+          </#list>
+          ]
+        }
+        <#if ln_has_next>,</#if>
+        </#list>
+        ]
+      }]
+    }
+  }
+]
