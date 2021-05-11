@@ -44,7 +44,6 @@ jobs:
             if [[ -z "$RELEASE" && "${CIRCLE_BRANCH}" != "master" ]]; then
               mvn -s .circleci/.circleci.settings.xml -DskipTests deploy
             fi
-
       #Maven Release
       - run:
           name: Perform Maven Release
@@ -56,31 +55,6 @@ jobs:
                     RELEASE="Yes"
                     ADDITIONAL_PARAMS="--set-upstream origin $CIRCLE_BRANCH"
                     mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:prepare -Dmaven.test.skip=true
-                    #DOCKER INIT
-                    echo "INIT Docker"
-                    ls -la
-                    echo "Get artifactId"
-                    APP_NAME=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
-                    echo "Get APP_VERSION"
-                    APP_VERSION=$(ls target/*.jar | grep -Eo "[[:digit:]]+.[[:digit:]]+.[[:digit:]]+")
-                    echo "Get the APP_GROUP_ID"
-                    APP_GROUP_ID=$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)
-                    echo "add to known_hosts ssh"
-                    echo $KNOW_HOST >> ~/.ssh/known_hosts
-                    ls target/
-                    echo "VERSION :" $APP_NAME $APP_VERSION
-                    echo "Create a temp folder"
-                    ssh $HOST_USR@$HOST_DOCKER "mkdir ~/docker/buildDocker/$APP_NAME-$APP_VERSION/"
-                    echo "Copy the final JAR to remote server"
-                    scp target/$APP_NAME-*.jar $HOST_USR@$HOST_DOCKER:~/docker/buildDocker/$APP_NAME-$APP_VERSION/.
-                    echo "Copy the DockerFile  to remote server"
-                    scp .circleci/dockerFiles/Dockerfile $HOST_USR@$HOST_DOCKER:~/docker/buildDocker/$APP_NAME-$APP_VERSION/.
-                    echo "Execute sh to build and publish image"
-                    ssh $HOST_USR@$HOST_DOCKER "sh ~/docker/buildDocker/dockerImageBuildPublish.sh $DOCKER_REGISTRY $DOCKER_USERNAME $DOCKER_PASS $APP_NAME $APP_VERSION"
-                    echo "Erase things"
-                    ssh $HOST_USR@$HOST_DOCKER "rm ~/docker/buildDocker/$APP_NAME-$APP_VERSION/*"
-                    ssh $HOST_USR@$HOST_DOCKER "rmdir ~/docker/buildDocker/$APP_NAME-$APP_VERSION/"
-                    #DOCKER END
                     mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:perform -Dmaven.test.skip=true
             fi
       #Save Cache
@@ -90,7 +64,7 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
 workflows:
-  version: 2
+  version: 2.0
   build_in_server:
     jobs:
       - build
