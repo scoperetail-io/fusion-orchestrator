@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.scoperetail.fusion</groupId>
 	<artifactId>orchestrator</artifactId>
-	<version>0.2</version>
+	<version>0.3-SNAPSHOT</version>
 	<name>fusion-orchestrator</name>
 	<description>Routes the messages from source to target</description>
 	<properties>
@@ -37,7 +37,7 @@
 		<developerConnection>
 			scm:git:git@github.com:scoperetail-io/fusion-orchestrator.git
 		</developerConnection>
-		<tag>orchestrator-0.2</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<dependencies>
 		<dependency>
