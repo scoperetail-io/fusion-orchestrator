@@ -22,11 +22,11 @@
             "pickDisplayTs": "${pickDetail.pickDisplayTs}",
             "pickedTs": "${pickDetail.pickedTs}",
             "pickUom": "${pickDetail.pickUom}",
-            "container": [{
+            "container": {
               "pickQty": 1,
               "pickWeight": 5.0,
               "containerNbr": "A64723"
-            }],
+            },
             "pickLocation": "MFC",
             "pickPriceEmbeddedUpcNbr": "${pickDetail.pickPriceEmbeddedUpcNbr}",
             "gtinPriceAmt": 14.8,
