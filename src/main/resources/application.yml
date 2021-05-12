@@ -126,9 +126,9 @@ spring:
   datasource:
     platform: mariadb
     driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb:failover://localhost:3306/audit_log?autoReconnect=true
-    username: root
-    password: root
+    url: jdbc:mariadb:failover://localhost:3306/fusion?autoReconnect=true
+    username: fusion
+    password: fusion
     timeBetweenEvictionRunsMillis: 1000
     testWhileIdle: true
     #validationQuery: SELECT 1
