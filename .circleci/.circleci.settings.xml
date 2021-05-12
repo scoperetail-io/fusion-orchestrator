@@ -12,14 +12,4 @@
             <id>snapshots</id>
         </server>
     </servers>
-	
-	  <mirrors>
-        <mirror>
-            <id>central</id>
-            <mirrorOf>central</mirrorOf>
-            <name>central</name>
-            <url>http://scopeartifactory.centralus.cloudapp.azure.com/artifactory/maven-virtual</url>
-            <blocked>false</blocked>
-        </mirror>
-    </mirrors>
 </settings>
