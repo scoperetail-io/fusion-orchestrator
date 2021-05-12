@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -17,7 +19,7 @@
 		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<lombok.version>1.18.12</lombok.version>
 		<spotless.version>2.10.0</spotless.version>
-		<openapi-specification.version>0.2</openapi-specification.version>
+		<openapi-specification.version>0.3</openapi-specification.version>
 		<fusion-shared-kernel.version>0.2</fusion-shared-kernel.version>
 		<fusion-messaging.version>0.1</fusion-messaging.version>
 		<fusion-audit-persistence.version>0.2</fusion-audit-persistence.version>
@@ -95,10 +97,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- annotation processors end -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
