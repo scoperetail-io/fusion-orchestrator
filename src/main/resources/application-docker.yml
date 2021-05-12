@@ -122,3 +122,24 @@ fusion:
               usecaseResult: FAILURE
               brokerId: fusionBroker
               queueName: PICK.END.OUTBOUND.BO
+spring:
+  datasource:
+    platform: mariadb
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb:failover://fusion-mariadb:3306/audit_log?autoReconnect=true
+    username: root
+    password: root
+    timeBetweenEvictionRunsMillis: 1000
+    testWhileIdle: true
+  liquibase:
+    enabled: false
+  hikari:
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    maxLifetime: 2000000
+    maximumPoolSize: 20
+    minimumIdle: 5
+    poolName: SpringBootJPAHikariCP
+  jpa:
+    ddl-auto: ''
+    show-sql: true
