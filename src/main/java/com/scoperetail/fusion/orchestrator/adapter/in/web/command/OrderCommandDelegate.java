@@ -30,7 +30,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 	@Override
 	public ResponseEntity<ModelApiResponse> orderDropEvent(final OrderDropEvent orderDropEventRequest) {
 		HttpStatus result = CONFLICT;
-		if (!isDuplicate(orderDropEventRequest)) {
+		if (isNotDuplicate(orderDropEventRequest)) {
 			try {
 				posterUseCase.post(OrderDropEvent, orderDropEventRequest, true);
 				result = ACCEPTED;
@@ -42,7 +42,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 		return buildResponseEntity(result);
 	}
 
-	private boolean isDuplicate(final OrderDropEvent orderDropEventRequest) {
+	private boolean isNotDuplicate(final OrderDropEvent orderDropEventRequest) {
 		String storeNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getDestinationBusinessUnit()
 				.getDestDivisonNumber();
 		Long orderNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getOrderNbr();
