@@ -37,7 +37,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 		HttpStatus result = CONFLICT;
 		if (isNotDuplicate(orderDropEventRequest)) {
 			try {
-				//datesTimeZone(orderDropEventRequest);
+				datesTimeZone(orderDropEventRequest);
 				posterUseCase.post(OrderDropEvent, orderDropEventRequest, true);
 				result = ACCEPTED;
 			} catch (final Exception e) {
