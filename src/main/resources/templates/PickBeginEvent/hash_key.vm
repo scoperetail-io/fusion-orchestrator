@@ -1,3 +1,7 @@
 {
-  "CountryCode":"$DOMAIN_ENTITY.messageBody.routingInfo.sourceNode.location.countryCode"
+  "EventId":"PickBeginEvent",
+  "StoreNumber":"$DOMAIN_ENTITY.messageBody.orderBeginEvent.node.nodeId",
+  #foreach($fulfillmentOrder in $DOMAIN_ENTITY.messageBody.orderBeginEvent.fulfillmentOrders.fulfillmentOrder)
+    "OrderNumber":"$DOMAIN_ENTITY.fulfillmentOrder.orderNbr"
+  #end
 }
