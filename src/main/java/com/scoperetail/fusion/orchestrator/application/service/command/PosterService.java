@@ -3,7 +3,13 @@ package com.scoperetail.fusion.orchestrator.application.service.command;
 
 import static com.scoperetail.fusion.messaging.application.port.in.UsecaseResult.FAILURE;
 import static com.scoperetail.fusion.messaging.application.port.in.UsecaseResult.SUCCESS;
-
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.apache.commons.collections.MapUtils;
 import com.scoperetail.fusion.messaging.application.port.in.UsecaseResult;
 import com.scoperetail.fusion.messaging.config.Adapter;
 import com.scoperetail.fusion.messaging.config.Adapter.TransformationType;
@@ -21,10 +27,6 @@ import com.scoperetail.fusion.orchestrator.application.service.transform.impl.Do
 import com.scoperetail.fusion.orchestrator.common.JsonUtils;
 import com.scoperetail.fusion.shared.kernel.common.annotation.UseCase;
 import com.scoperetail.fusion.shared.kernel.events.Event;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,10 +55,8 @@ class PosterService implements PosterUseCase {
 
   private void handleEvent(final Event event, final Object domainEntity, final boolean isValid)
       throws Exception {
-    final Optional<UseCaseConfig> optUseCase =
-        fusionConfig.getUsecases().stream()
-            .filter(u -> u.getName().equals(event.name()))
-            .findFirst();
+    final Optional<UseCaseConfig> optUseCase = fusionConfig.getUsecases().stream()
+        .filter(u -> u.getName().equals(event.name())).findFirst();
     if (optUseCase.isPresent()) {
       final UseCaseConfig useCase = optUseCase.get();
       final String activeConfig = useCase.getActiveConfig();
@@ -65,13 +65,10 @@ class PosterService implements PosterUseCase {
       if (optConfig.isPresent()) {
         final Config config = optConfig.get();
         final UsecaseResult usecaseResult = isValid ? SUCCESS : FAILURE;
-        final List<Adapter> adapters =
-            config.getAdapters().stream()
-                .filter(
-                    c ->
-                        c.getAdapterType().equals(Adapter.AdapterType.OUTBOUND)
-                            && c.getUsecaseResult().equals(usecaseResult))
-                .collect(Collectors.toList());
+        final List<Adapter> adapters = config.getAdapters().stream()
+            .filter(c -> c.getAdapterType().equals(Adapter.AdapterType.OUTBOUND)
+                && c.getUsecaseResult().equals(usecaseResult))
+            .collect(Collectors.toList());
         for (final Adapter adapter : adapters) {
           log.trace("Notifying outbound adapter: {}", adapter);
           final Transformer transformer = getTransformer(adapter.getTransformationType());
@@ -84,8 +81,8 @@ class PosterService implements PosterUseCase {
               notifyRest(event, domainEntity, adapter, transformer);
               break;
             default:
-              log.error(
-                  "Invalid adapter transport type: {} for adapter: {}", trasnportType, adapter);
+              log.error("Invalid adapter transport type: {} for adapter: {}", trasnportType,
+                  adapter);
           }
         }
       }
@@ -108,31 +105,45 @@ class PosterService implements PosterUseCase {
     return transformer;
   }
 
-  private void notifyJms(
-      final Event event,
-      final Object domainEntity,
-      final Adapter adapter,
-      final Transformer transformer)
-      throws Exception {
-    final String payload = transformer.transform(event, domainEntity, adapter.getTemplate());
+  private void notifyJms(final Event event, final Object domainEntity, final Adapter adapter,
+      final Transformer transformer) throws Exception {
+    Map<String, Object> paramsMap = new HashMap<>();
+    paramsMap.put(Transformer.DOMAIN_ENTITY, domainEntity);
+    final String payload = transformer.transform(event, paramsMap, adapter.getTemplate());
     posterOutboundJmsPort.post(adapter.getBrokerId(), adapter.getQueueName(), payload);
   }
 
-  private void notifyRest(
-      final Event event,
-      final Object domainEntity,
-      final Adapter adapter,
-      final Transformer transformer)
-      throws Exception {
+  private void notifyRest(final Event event, final Object domainEntity, final Adapter adapter,
+      final Transformer transformer) throws Exception {
+    final Map<String, Object> paramsMap = new HashMap<>();
+    paramsMap.put(Transformer.DOMAIN_ENTITY, domainEntity);
+    paramsMap.putAll(getCustomParams(event, adapter.getTemplateCustomizer()));
     final String requestHeader =
-        transformer.transform(event, domainEntity, adapter.getRequestHeaderTemplate());
+        transformer.transform(event, paramsMap, adapter.getRequestHeaderTemplate());
     final Map<String, String> httpHeadersMap =
         JsonUtils.unmarshal(Optional.ofNullable(requestHeader), Map.class.getCanonicalName());
     final String requestBody =
-        transformer.transform(event, domainEntity, adapter.getRequestBodyTemplate());
-    final String uri = transformer.transform(event, domainEntity, adapter.getUriTemplate());
+        transformer.transform(event, paramsMap, adapter.getRequestBodyTemplate());
+    final String uri = transformer.transform(event, paramsMap, adapter.getUriTemplate());
     final String url =
         adapter.getProtocol() + "://" + adapter.getHostName() + ":" + adapter.getPort() + uri;
     posterOutboundWebPort.post(url, adapter.getMethodType(), requestBody, httpHeadersMap);
+  }
+
+  private Map<String, Object> getCustomParams(Event event, String customizerClassName) {
+    Map<String, Object> params = MapUtils.EMPTY_MAP;
+    StringBuilder builder = new StringBuilder();
+    builder.append("com.scoperetail.fusion.orchestrator.config.plugins.").append(event.name())
+        .append(".").append(customizerClassName);
+    try {
+      Class customizerClazz = Class.forName(builder.toString());
+      Method method = customizerClazz.getDeclaredMethod("getParamsMap", new Class[0]);
+      params = (Map<String, Object>) method.invoke(null, new Object[0]);
+    } catch (Exception e) {
+      log.error(
+          "Skipping customization. Unable to load configured customizer for event: {} customizer: {}",
+          event, builder.toString());
+    }
+    return params;
   }
 }

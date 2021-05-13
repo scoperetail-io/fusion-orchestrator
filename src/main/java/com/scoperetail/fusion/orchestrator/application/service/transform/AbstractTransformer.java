@@ -17,8 +17,8 @@ public abstract class AbstractTransformer implements Transformer {
 
 	protected DomainHelper domainHelper;
 
-	protected final String getTextFromTemplate(final Event event, final Object entity, final String template) {
-		return domainHelper.generateTextFromTemplate(event, entity, template);
+	protected final String getTextFromTemplate(final Event event, final Map<String, Object> params, final String template) {
+		return domainHelper.generateTextFromTemplate(event, params, template);
 	}
 
 	protected final Map<String, String> getkeyMap(final String keyJson) throws IOException {

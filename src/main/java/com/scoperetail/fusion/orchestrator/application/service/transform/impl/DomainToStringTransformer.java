@@ -6,6 +6,7 @@ import com.scoperetail.fusion.orchestrator.common.JsonUtils;
 import com.scoperetail.fusion.orchestrator.domain.helper.DomainHelper;
 import com.scoperetail.fusion.shared.kernel.events.Event;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,8 +20,9 @@ public class DomainToStringTransformer extends AbstractTransformer {
   }
 
   @Override
-  public String transform(final Event event, final Object object, final String templateName) {
-    String result = object.toString();
+  public String transform(final Event event, final Map<String, Object> params, final String templateName) {
+    Object object = params.get(DOMAIN_ENTITY);
+	String result = object.toString();
     try {
       result = JsonUtils.marshal(Optional.ofNullable(object));
       log.trace("Event: {} transformed to String", event);
