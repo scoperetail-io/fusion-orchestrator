@@ -133,7 +133,6 @@ spring:
     password: fusion
     timeBetweenEvictionRunsMillis: 1000
     testWhileIdle: true
-    #validationQuery: SELECT 1
   liquibase:
     enabled: false
   hikari:
