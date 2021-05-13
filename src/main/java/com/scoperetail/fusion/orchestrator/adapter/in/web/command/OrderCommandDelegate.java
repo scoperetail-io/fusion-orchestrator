@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
+import com.scoperetail.commons.time.util.DateTimeZoneUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +20,15 @@ import com.scoperetail.fusion.orchestrator.domain.OrderDropEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
 public class OrderCommandDelegate implements OrdersApiDelegate {
-
+	private final static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 	private PosterUseCase posterUseCase;
 	private DedupeJpaAdapter dedupeJpaAdapter;
 
@@ -32,6 +37,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 		HttpStatus result = CONFLICT;
 		if (isNotDuplicate(orderDropEventRequest)) {
 			try {
+				//datesTimeZone(orderDropEventRequest);
 				posterUseCase.post(OrderDropEvent, orderDropEventRequest, true);
 				result = ACCEPTED;
 			} catch (final Exception e) {
@@ -43,8 +49,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 	}
 
 	private boolean isNotDuplicate(final OrderDropEvent orderDropEventRequest) {
-		String storeNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getDestinationBusinessUnit()
-				.getDestDivisonNumber();
+		String storeNbr = orderDropEventRequest.getRoutingInfo().getDestinationNode().getNodeID();
 		Long orderNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getOrderNbr();
 		String logKey = OrderDropEvent.name() + storeNbr + orderNbr.toString();
 		return dedupeJpaAdapter.isNotDuplicate(HashUtil.getHash(logKey));
@@ -58,4 +63,22 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 		return ResponseEntity.status(httpStatus).body(response);
 	}
 
+	private void datesTimeZone(final OrderDropEvent orderDropEventRequest){
+		ZoneId fromZone = ZoneId.of("GMT");
+		String timezone = orderDropEventRequest.getRoutingInfo().getSourceNode().getLocation().getTimezone().trim();
+		ZoneId toZone = ZoneId.of(timezone);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+		LocalDateTime time = LocalDateTime.parse(orderDropEventRequest.getOrder().getFulfillmentOrder().getEarliestPickTime(), dateTimeFormatter);
+		LocalDateTime result = DateTimeZoneUtil.toLocalDateTime(time, fromZone, toZone);
+		orderDropEventRequest.getOrder().getFulfillmentOrder().setEarliestPickTime(result.format(dateTimeFormatter));
+
+		time = LocalDateTime.parse(orderDropEventRequest.getOrder().getFulfillmentOrder().getPickDueTime(), dateTimeFormatter);
+		result = DateTimeZoneUtil.toLocalDateTime(time, fromZone, toZone);
+		orderDropEventRequest.getOrder().getFulfillmentOrder().setPickDueTime(result.format(dateTimeFormatter));
+
+		time = LocalDateTime.parse(orderDropEventRequest.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime(), dateTimeFormatter);
+		result = DateTimeZoneUtil.toLocalDateTime(time, fromZone, toZone);
+		orderDropEventRequest.getOrder().getFulfillmentOrder().setExpectedOrderPickupTime(result.format(dateTimeFormatter));
+	}
 }

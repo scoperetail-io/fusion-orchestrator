@@ -148,6 +148,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.scoperetail</groupId>
+			<artifactId>commons-time</artifactId>
+			<version>0.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
