@@ -1,18 +1,18 @@
 [
   {
     "eventName": "PICK_COMPLETE",
-    "eventTs": "$date.get('yyyy-MM-dd')T$date.get('HH:mm:ss')",
+    "eventTs": "$DATE_TOOL.get('yyyy-MM-dd')T$DATE_TOOL.get('HH:mm:ss')",
     "eventPayload": {
       "pickCompleteDetails": [
         {
-          "fulfillOrdNbr": "$EVENT.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.orderNbr",
+          "fulfillOrdNbr": "$DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.orderNbr",
           "lines": [
-           #foreach($line in $EVENT.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line)
+           #foreach($line in $DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line)
             {
               "orderLine": "$line.lineNbr",
               "qtyToFulfill": "$line.orderedQty",  //is it orderedWeight??
               "pickDetails": [
-               #foreach($pickDetail in $EVENT.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line.pickDetails)
+               #foreach($pickDetail in $DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line.pickDetails)
                 {
                   "pickQty": "$pickDetail.pickQty",
                   "pickType": "$pickDetail.pickType",

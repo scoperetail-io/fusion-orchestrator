@@ -80,6 +80,7 @@ fusion:
               uriTemplate: PickBeginEvent_uri.vm
               requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.vm
               requestHeaderTemplate: PickBeginEvent_requestHeader.vm
+              templateCustomizer: PickBeginOutboundCustomizer
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
@@ -111,6 +112,7 @@ fusion:
               requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.vm
               requestHeaderTemplate: PickEndEvent_requestHeader.vm
               transformationType: TEMPLATE_TRANSFORMER
+              templateCustomizer: PickEndOutboundCustomizer
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS

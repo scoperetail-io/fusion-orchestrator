@@ -3,48 +3,48 @@
     <hdr:SubId>SUB-EIC-UPDPICK-V1</hdr:SubId>
     <hdr:CnsmrId>CON-NODE-UPDPICK-V1</hdr:CnsmrId>
     <hdr:SrvcNm>UpdateFulfillmentPicking.subSystemOrderRelease</hdr:SrvcNm>
-    <hdr:TranId>$EVENT.order.fulfillmentOrder.orderNbr</hdr:TranId>
+    <hdr:TranId>$DOMAIN_ENTITY.order.fulfillmentOrder.orderNbr</hdr:TranId>
     <hdr:Version>1.0</hdr:Version>
   </hdr:MessageHeader>
   <MessageBody>
     <RoutingInfo>
       <SourceNode>
         <location>
-          <countryCode>$EVENT.routingInfo.sourceNode.location.countryCode</countryCode>
+          <countryCode>$DOMAIN_ENTITY.routingInfo.sourceNode.location.countryCode</countryCode>
         </location>
-        <nodeID>$EVENT.routingInfo.sourceNode.nodeID</nodeID>
+        <nodeID>$DOMAIN_ENTITY.routingInfo.sourceNode.nodeID</nodeID>
       </SourceNode>
       <DestinationNode>
         <location>
-          <countryCode>$EVENT.routingInfo.destinationNode.location.countryCode</countryCode>
+          <countryCode>$DOMAIN_ENTITY.routingInfo.destinationNode.location.countryCode</countryCode>
         </location>
-        <nodeID>$EVENT.routingInfo.destinationNode.nodeID</nodeID>
-        <cNodeID>$EVENT.routingInfo.destinationNode.cNodeID</cNodeID>
+        <nodeID>$DOMAIN_ENTITY.routingInfo.destinationNode.nodeID</nodeID>
+        <cNodeID>$DOMAIN_ENTITY.routingInfo.destinationNode.cNodeID</cNodeID>
       </DestinationNode>
     </RoutingInfo>
     <Order>
       <node>
-        <nodeId>$EVENT.order.node.nodeId</nodeId>
-        <countryCode>$EVENT.order.node.countryCode</countryCode>
+        <nodeId>$DOMAIN_ENTITY.order.node.nodeId</nodeId>
+        <countryCode>$DOMAIN_ENTITY.order.node.countryCode</countryCode>
       </node>
       <fulfillmentOrder>
-        <orderNbr>$EVENT.order.fulfillmentOrder.orderNbr</orderNbr>
+        <orderNbr>$DOMAIN_ENTITY.order.fulfillmentOrder.orderNbr</orderNbr>
         <orderPriority>
           <code>1</code>
           <description>Grocery Pickup Default</description>
         </orderPriority>
-        <type code="6" name="$EVENT.order.fulfillmentOrder.type.name"/>
+        <type code="6" name="$DOMAIN_ENTITY.order.fulfillmentOrder.type.name"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>$EVENT.order.fulfillmentOrder.pickDueTime</pickDueTime>
-        <expectedOrderPickupTime>$EVENT.order.fulfillmentOrder.expectedOrderPickupTime</expectedOrderPickupTime>
-        <earliestPickTime>$EVENT.order.fulfillmentOrder.earliestPickTime</earliestPickTime>
-        <orderSequenceNumber>$EVENT.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
-        <loadGroupNumber>$EVENT.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
-        <carrierBagAllowed>$EVENT.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
-        <recordCarrierBagCount>$EVENT.order.fulfillmentOrder.recordCarrierBagCount</recordCarrierBagCount>
+        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime</pickDueTime>
+        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime</expectedOrderPickupTime>
+        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime</earliestPickTime>
+        <orderSequenceNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
+        <loadGroupNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
+        <carrierBagAllowed>$DOMAIN_ENTITY.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
+        <recordCarrierBagCount>$DOMAIN_ENTITY.order.fulfillmentOrder.recordCarrierBagCount</recordCarrierBagCount>
 
         <lines>
-            #foreach($line in $EVENT.order.fulfillmentOrder.lines)
+            #foreach($line in $DOMAIN_ENTITY.order.fulfillmentOrder.lines)
                 <line>
                     <lineNbr>$line.lineNbr</lineNbr>
                     <upc>$line.upc</upc>

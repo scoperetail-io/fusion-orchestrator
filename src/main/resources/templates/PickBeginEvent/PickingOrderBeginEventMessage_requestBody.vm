@@ -1,10 +1,10 @@
 [
   {
     "eventName": "PICK_BEGIN",
-    "eventTs": "$date.get('yyyy-MM-dd')T$date.get('HH:mm:ss')",
+    "eventTs": "$DATE_TOOL.get('yyyy-MM-dd')T$DATE_TOOL.get('HH:mm:ss')",
     "eventPayload": {
       "fulfillmentOrders": [
-      #foreach($fulfillmentOrder in $EVENT.messageBody.orderBeginEvent.fulfillmentOrders.fulfillmentOrder)
+      #foreach($fulfillmentOrder in $DOMAIN_ENTITY.messageBody.orderBeginEvent.fulfillmentOrders.fulfillmentOrder)
         {
           "orderNbr": $fulfillmentOrder.orderNbr,
           "priorityCode": $fulfillmentOrder.priorityCode
@@ -13,7 +13,7 @@
       ]
     },
     "MessageExtensions": [
-      #foreach($extension in $EVENT.messageBody.messageExtensions.messageExtension)
+      #foreach($extension in $DOMAIN_ENTITY.messageBody.messageExtensions.messageExtension)
        {
           "name": $extension.name,
           "value": $extension.value

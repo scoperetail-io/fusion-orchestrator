@@ -23,12 +23,13 @@ public class DomainToDomainEventJsonTransformer extends AbstractTransformer {
   }
 
   @Override
-  public String transform(final Event event, final Object domainEntity, final String templateName)
+  public String transform(final Event event, final Map<String,Object> params, final String templateName)
       throws Exception {
     String keyHash = null;
     Map<String, String> keyMap = null;
-    final String payload = JsonUtils.marshal(Optional.ofNullable(domainEntity));
-    final String keyJson = getTextFromTemplate(event, domainEntity, HASH_KEY_TEMPLATE);
+    Object domainEntity=params.get(DOMAIN_ENTITY);
+	final String payload = JsonUtils.marshal(Optional.ofNullable(domainEntity));
+    final String keyJson = getTextFromTemplate(event, params, HASH_KEY_TEMPLATE);
     keyMap = getkeyMap(keyJson);
     keyHash = HashUtil.getHash(keyJson);
 
