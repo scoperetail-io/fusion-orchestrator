@@ -1,4 +1,4 @@
-package com.scoperetail.fusion.orchestrator.config.plugins.PickEndEvent.copy;
+package com.scoperetail.fusion.orchestrator.config.plugins.PickEndEvent;
 
 import java.util.HashMap;
 import java.util.Map;

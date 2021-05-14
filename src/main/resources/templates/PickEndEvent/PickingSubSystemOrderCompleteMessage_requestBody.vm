@@ -5,14 +5,14 @@
     "eventPayload": {
       "pickCompleteDetails": [
         {
-          "fulfillOrdNbr": "$DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.orderNbr",
+          "fulfillOrdNbr": "$DOMAIN_ENTITY.messageBody.pickOrderComplete.fulfillmentOrder.orderNbr",
           "lines": [
-           #foreach($line in $DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line)
+           #foreach($line in $DOMAIN_ENTITY.messageBody.pickOrderComplete.fulfillmentOrder.lines.line)
             {
               "orderLine": "$line.lineNbr",
               "qtyToFulfill": "$line.orderedQty",
               "pickDetails": [
-               #foreach($pickDetail in $DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line.pickDetails)
+               #foreach($pickDetail in $line.pickDetails)
                 {
                   "pickQty": "$pickDetail.pickQty",
                   "pickType": "$pickDetail.pickType",
@@ -36,14 +36,13 @@
                       "containerNbr": "$pickDetail.container.containerNbr"
                     }
                   ],
-                  "pickLocation": "$pickDetail.container.location",
-                  "pickPriceEmbeddedUpcNbr": "$pickDetail.pickPriceEmbeddedUpcNbr",
-                  "pickWeight": $pickDetail.pickWeight
+                  "pickLocation": "$pickDetail.container.location"
                 }
                #end
               ]
             }
-            #end
+            #if( $foreach.hasNext ),#end
+           #end
           ]
         }
       ]
