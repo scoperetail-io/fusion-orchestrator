@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration monitorInterval="60">
 	<Properties>
-		<Property name="log-path">/tmp/fusion</Property>
+		<Property name="file-name-prefix">fusion-orchestrator</Property>
+		<Property name="log-path">/tmp/fusion/orchestrator</Property>
 		<Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
 		<Property name="LOG_LEVEL_PATTERN">%5p</Property>
 		<Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
@@ -10,8 +11,8 @@
 	</Properties>
 	<Appenders>
 		<RollingFile name="App-File-Appender"
-			fileName="${log-path}/fusion.log"
-			filePattern="${log-path}/fusion-%d{yyyy-MM-dd}-%i.log">
+			fileName="${log-path}/${file-name-prefix}.log"
+			filePattern="${log-path}/${file-name-prefix}-%d{yyyy-MM-dd}-%i.log">
 			<PatternLayout>
 				<pattern>${FILE_LOG_PATTERN}</pattern>
 			</PatternLayout>
@@ -21,7 +22,7 @@
 			</Policies>
 			<DefaultRolloverStrategy>
 				<Delete basePath="${log-path}">
-					<IfFileName glob="fusion-*.log" />
+					<IfFileName glob="${file-name-prefix}-*.log" />
 					<IfLastModified age="30d" />
 				</Delete>
 			</DefaultRolloverStrategy>
