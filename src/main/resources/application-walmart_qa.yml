@@ -27,18 +27,18 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: ORDER.DROP.OUTBOUND
+              queueName: FUSION.ORDER.IN
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: ORDER.DROP.ERROR
+              queueName: FUSION.ORDER.ERROR
     - name: OrderDropEventReader
       version: 1
       activeConfig: adapterConfig
@@ -49,20 +49,20 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: ORDER.DROP.READER.OUTBOUND
-              transformationType: TEMPLATE_TRANSFORMER
+              queueName: US.FUSION.ALPHA.IN.QUEUE
               template: PickingSubsystemOrderReleaseMessage.vm
+              transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: ORDER.DROP.OUTBOUND.ERROR
+              queueName: US.FUSION.ALPHA.ERROR.QUEUE
 
     - name: PickBeginEvent
       version: 1
@@ -73,11 +73,11 @@ fusion:
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
-              hostName: httpbin.org
+              hostName: developer.api.us.stg.walmart.com
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickBeginEvent_uri.vm
+              uriTemplate: PickBeginEvent_uri_walmart.vm
               requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.vm
               requestHeaderTemplate: PickBeginEvent_requestHeader.vm
               templateCustomizer: PickBeginOutboundCustomizer
@@ -86,13 +86,13 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: PICK.BEGIN.OUTBOUND.BO
+              queueName: FUSION.PICK.BEGIN.OUTBOUND.ERROR
 
 
     - name: PickEndEvent
@@ -104,11 +104,11 @@ fusion:
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
-              hostName: httpbin.org
+              hostName: developer.api.us.stg.walmart.com
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickEndEvent_uri.vm
+              uriTemplate: PickEndEvent_uri_walmart.vm
               requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.vm
               requestHeaderTemplate: PickEndEvent_requestHeader.vm
               transformationType: TEMPLATE_TRANSFORMER
@@ -117,13 +117,13 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: PICK.END.OUTBOUND.BO
+              queueName: FUSION.PICK.END.OUTBOUND.ERROR
 spring:
   datasource:
     platform: mariadb
