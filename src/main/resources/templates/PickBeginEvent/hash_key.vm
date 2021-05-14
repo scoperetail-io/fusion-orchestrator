@@ -2,6 +2,6 @@
   "EventId":"PickBeginEvent",
   "StoreNumber":"$DOMAIN_ENTITY.messageBody.orderBeginEvent.node.nodeId",
   #foreach($fulfillmentOrder in $DOMAIN_ENTITY.messageBody.orderBeginEvent.fulfillmentOrders.fulfillmentOrder)
-    "OrderNumber":"fulfillmentOrder.orderNbr";
+    "OrderNumber":"$fulfillmentOrder.orderNbr";
   #end
 }
