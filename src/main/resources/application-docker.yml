@@ -52,7 +52,6 @@ fusion:
               queueName: ORDER.DROP.READER.OUTBOUND
               transformationType: TEMPLATE_TRANSFORMER
               template: PickingSubsystemOrderReleaseMessage.vm
-              templateCustomizer: OrderDropOutboundCustomizer
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS

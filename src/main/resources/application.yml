@@ -51,7 +51,6 @@ fusion:
               brokerId: fusionBroker
               queueName: ORDER.DROP.READER.OUTBOUND
               template: PickingSubsystemOrderReleaseMessage.vm
-              templateCustomizer: OrderDropOutboundCustomizer
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
