@@ -50,8 +50,8 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: ORDER.DROP.READER.OUTBOUND
-              transformationType: TEMPLATE_TRANSFORMER
               template: PickingSubsystemOrderReleaseMessage.vm
+              transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
@@ -73,11 +73,11 @@ fusion:
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
-              hostName: httpbin.org
+              hostName: developer.api.us.stg.walmart.com
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickBeginEvent_uri.vm
+              uriTemplate: PickBeginEvent_uri_walmart.vm
               requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.vm
               requestHeaderTemplate: PickBeginEvent_requestHeader.vm
               templateCustomizer: PickBeginOutboundCustomizer
@@ -104,11 +104,11 @@ fusion:
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS
-              hostName: httpbin.org
+              hostName: developer.api.us.stg.walmart.com
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickEndEvent_uri.vm
+              uriTemplate: PickEndEvent_uri_walmart.vm
               requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.vm
               requestHeaderTemplate: PickEndEvent_requestHeader.vm
               transformationType: TEMPLATE_TRANSFORMER
