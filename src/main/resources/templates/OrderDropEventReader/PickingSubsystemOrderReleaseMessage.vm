@@ -1,3 +1,7 @@
+#set($pickDueTime = $tzCustomizer.toTimeZone($DOMAIN_ENTITY.routingInfo.sourceNode.location.timezone, $DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime))
+#set($expectedOrderPickupTime = $tzCustomizer.toTimeZone($DOMAIN_ENTITY.routingInfo.sourceNode.location.timezone, $DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime))
+#set($earliestPickTime = $tzCustomizer.toTimeZone($DOMAIN_ENTITY.routingInfo.sourceNode.location.timezone, $DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime))
+
 <PickingSubSystemOrderReleaseMessage xmlns="http://www.xmlns.walmartstores.com/SuppyChain/FulfillmentManagement/GlobalIntegeratedFulfillment/Picking/PickingSubSystemOrderReleaseMessage/1.0/" xmlns:hdr="http://www.xmlns.walmartstores.com/Header/datatypes/MessageHeader/1.4/">
   <hdr:MessageHeader>
     <hdr:SubId>SUB-EIC-UPDPICK-V1</hdr:SubId>
@@ -35,9 +39,9 @@
         </orderPriority>
         <type code="6" name="$DOMAIN_ENTITY.order.fulfillmentOrder.type.name"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime</pickDueTime>
-        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime</expectedOrderPickupTime>
-        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime</earliestPickTime>
+        <pickDueTime>$pickDueTime</pickDueTime>
+        <expectedOrderPickupTime>$expectedOrderPickupTime</expectedOrderPickupTime>
+        <earliestPickTime>$earliestPickTime</earliestPickTime>
         <orderSequenceNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
         <loadGroupNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
         <carrierBagAllowed>$DOMAIN_ENTITY.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
