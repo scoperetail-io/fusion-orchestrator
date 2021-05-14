@@ -50,8 +50,8 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: ORDER.DROP.READER.OUTBOUND
-              transformationType: TEMPLATE_TRANSFORMER
               template: PickingSubsystemOrderReleaseMessage.vm
+              transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS

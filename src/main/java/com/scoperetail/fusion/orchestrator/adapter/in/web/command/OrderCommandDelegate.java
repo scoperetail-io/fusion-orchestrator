@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Slf4j
 public class OrderCommandDelegate implements OrdersApiDelegate {
-
 	private PosterUseCase posterUseCase;
 	private DedupeJpaAdapter dedupeJpaAdapter;
 
@@ -43,8 +42,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 	}
 
 	private boolean isNotDuplicate(final OrderDropEvent orderDropEventRequest) {
-		String storeNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getDestinationBusinessUnit()
-				.getDestDivisonNumber();
+		String storeNbr = orderDropEventRequest.getRoutingInfo().getDestinationNode().getNodeID();
 		Long orderNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getOrderNbr();
 		String logKey = OrderDropEvent.name() + storeNbr + orderNbr.toString();
 		return dedupeJpaAdapter.isNotDuplicate(HashUtil.getHash(logKey));
@@ -57,5 +55,4 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 		response.setType(httpStatus.name());
 		return ResponseEntity.status(httpStatus).body(response);
 	}
-
 }

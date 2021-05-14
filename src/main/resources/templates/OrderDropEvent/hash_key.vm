@@ -1,3 +1,5 @@
 {
-  "CountryCode":"$DOMAIN_ENTITY.routingInfo.sourceNode.location.countryCode"
+  "EventId":"OrderDropEvent",
+  "StoreNumber":"$DOMAIN_ENTITY.routingInfo.destinationNode.nodeID",
+  "OrderNumber":"$DOMAIN_ENTITY.order.fulfillmentOrder.orderNbr"
 }
