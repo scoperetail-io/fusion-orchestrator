@@ -18,7 +18,7 @@ public class PickBeginEventTaskHandler extends AbstractMessageListener {
       final PickBeginUseCase pickBeginUseCase) {
     super(
         "fusionBroker",
-        "MCS.PICK.OUT",
+        "US.FUSION.ALPHA.OUT.QUEUE",
         MessageType.XML,
         pickBeginXmlSchema,
         "pickingOrderBeginEventMessage",

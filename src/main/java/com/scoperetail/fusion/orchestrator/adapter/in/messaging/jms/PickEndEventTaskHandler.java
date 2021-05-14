@@ -18,7 +18,7 @@ public class PickEndEventTaskHandler extends AbstractMessageListener {
       final PickEndUseCase pickEndUseCase) {
     super(
         "fusionBroker",
-        "MCS.PICK.OUT",
+        "US.FUSION.ALPHA.OUT.QUEUE",
         MessageType.XML,
         pickEndXmlSchema,
         "PickingSubSystemOrderCompleteMessage",
