@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.Map;
 
-import com.scoperetail.fusion.orchestrator.config.plugins.commons.TimeZoneCustomizer;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -34,7 +33,6 @@ public final class DomainHelper {
 		final Template template = velocityEngine.getTemplate(path);
 		final VelocityContext context = new VelocityContext();
 		params.forEach((k, v) -> context.put(k, v));
-		context.put("tzCustomizer", new TimeZoneCustomizer());
 		final StringWriter writer = new StringWriter();
 		template.merge(context, writer);
 		final String text = writer.toString();

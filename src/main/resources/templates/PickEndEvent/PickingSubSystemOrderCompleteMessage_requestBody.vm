@@ -10,28 +10,34 @@
            #foreach($line in $DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line)
             {
               "orderLine": "$line.lineNbr",
-              "qtyToFulfill": "$line.orderedQty",  //is it orderedWeight??
+              "qtyToFulfill": "$line.orderedQty",
               "pickDetails": [
                #foreach($pickDetail in $DOMAIN_ENTITY.MessageBody.pickingSubSystemOrderComplete.fulfillmentOrder.lines.line.pickDetails)
                 {
                   "pickQty": "$pickDetail.pickQty",
                   "pickType": "$pickDetail.pickType",
                   "pickUpcNbr": "$pickDetail.pickUpcNbr",
-                  "upcTypeCd": "5100",                          //NA ????
+                  #if( $pickDetail.pickType == "ORDERED" )
+                    "upcTypeCd": "5100",
+                  #elseif( $pickDetail.pickType == "SUBSTITUTE" )
+                    "upcTypeCd": "5200",
+                  #elseif( $pickDetail.pickType == "CROSSREF" )
+                    "upcTypeCd": "5300",
+                  #elseif( $pickDetail.pickType == "OVERRIDE" )
+                    "upcTypeCd": "5400",
+                  #end
                   "pickedUser": "$pickDetail.pickedUser",
                   "pickDisplayTs": "$pickDetail.pickDisplayTs", 
                   "pickedTs": "$pickDetail.pickedTs",
                   "pickUom": "$pickDetail.pickUom",
-                  "container": [   //Not a list
+                  "container": [
                     {
-                      "pickQty": 1,
-                      "pickWeight": 5,
-                      "containerNbr": "A64723"
+                      "pickQty": $pickDetail.pickQty,
+                      "containerNbr": "$pickDetail.container.containerNbr"
                     }
                   ],
-                  "pickLocation": "MFC",  //NA ??
+                  "pickLocation": "$pickDetail.container.location",
                   "pickPriceEmbeddedUpcNbr": "$pickDetail.pickPriceEmbeddedUpcNbr",
-                  "gtinPriceAmt": 14.8,                          ////NA ????
                   "pickWeight": $pickDetail.pickWeight
                 }
                #end

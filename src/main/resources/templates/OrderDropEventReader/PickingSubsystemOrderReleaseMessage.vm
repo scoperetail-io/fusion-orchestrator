@@ -35,9 +35,9 @@
         </orderPriority>
         <type code="6" name="$DOMAIN_ENTITY.order.fulfillmentOrder.type.name"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>$tzCustomizer.toTimeZone($DOMAIN_ENTITY.routingInfo.sourceNode.location.timezone, $DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime)</pickDueTime>
-        <expectedOrderPickupTime>$tzCustomizer.toTimeZone($DOMAIN_ENTITY.routingInfo.sourceNode.location.timezone, $DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime)</expectedOrderPickupTime>
-        <earliestPickTime>$tzCustomizer.toTimeZone($DOMAIN_ENTITY.routingInfo.sourceNode.location.timezone, $DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime)</earliestPickTime>
+        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime</pickDueTime>
+        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime</expectedOrderPickupTime>
+        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime</earliestPickTime>
         <orderSequenceNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
         <loadGroupNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
         <carrierBagAllowed>$DOMAIN_ENTITY.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
