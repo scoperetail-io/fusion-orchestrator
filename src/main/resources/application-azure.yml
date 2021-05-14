@@ -27,18 +27,18 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: ORDER.DROP.OUTBOUND
+              queueName: FUSION.ORDER.IN
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: ORDER.DROP.ERROR
+              queueName: FUSION.ORDER.ERROR
     - name: OrderDropEventReader
       version: 1
       activeConfig: adapterConfig
@@ -49,20 +49,20 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: ORDER.DROP.READER.OUTBOUND
+              queueName: US.FUSION.ALPHA.IN.QUEUE
               template: PickingSubsystemOrderReleaseMessage.vm
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: ORDER.DROP.OUTBOUND.ERROR
+              queueName: US.FUSION.ALPHA.ERROR.QUEUE
 
     - name: PickBeginEvent
       version: 1
@@ -86,13 +86,13 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: PICK.BEGIN.OUTBOUND.BO
+              queueName: FUSION.PICK.BEGIN.OUTBOUND.ERROR
 
 
     - name: PickEndEvent
@@ -117,13 +117,13 @@ fusion:
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
-              queueName: AUDIT.IN
+              queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
-              queueName: PICK.END.OUTBOUND.BO
+              queueName: FUSION.PICK.END.OUTBOUND.ERROR
 spring:
   datasource:
     platform: mariadb
