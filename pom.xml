@@ -22,7 +22,7 @@
 		<fusion-messaging.version>0.2</fusion-messaging.version>
 		<fusion-audit-persistence.version>0.2</fusion-audit-persistence.version>
 		<fusion-messaging-activemq.version>0.1</fusion-messaging-activemq.version>
-		<fusion-messaging-schema.version>0.4</fusion-messaging-schema.version>
+		<fusion-messaging-schema.version>0.6</fusion-messaging-schema.version>
 		<fusion.security.version>0.3</fusion.security.version>
 		<sonar.host.url>http://dev-ops.eastus2.cloudapp.azure.com/sonar/</sonar.host.url>
 		<sonar.login>scoperetail</sonar.login>
