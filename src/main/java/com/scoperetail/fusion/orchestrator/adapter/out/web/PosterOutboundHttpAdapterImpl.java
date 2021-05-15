@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PosterOutboundHttpAdapterImpl implements PosterOutboundHttpAdapter {
 	@Retryable(value = { RuntimeException.class },
-			maxAttempts = 3,
-			backoff = @Backoff(delay = 100))
+			maxAttemptsExpression = "#{${fusion.retryPolicies[0].maxAttempt}}",
+			backoff = @Backoff(delayExpression = "#{${fusion.retryPolicies[0].backoffMS}}"))
 	@Override
 	public void post(final String url, final String methodType, final String requestBody,
 			final Map<String, String> httpHeaders) {
