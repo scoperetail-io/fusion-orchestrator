@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: orchestrator-vault-config
+  cloud:
+    vault:
+      token: s.udJX3Hfc4Pb5zY8dY2tSx9j4
+      scheme: http
+      kv:
+        enabled: true
