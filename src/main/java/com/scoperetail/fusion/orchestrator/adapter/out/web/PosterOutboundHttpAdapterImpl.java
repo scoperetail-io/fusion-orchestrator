@@ -15,6 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class PosterOutboundHttpAdapterImpl implements PosterOutboundHttpAdapter {
+	private RetryRestService retryRestService;
+
+	public PosterOutboundHttpAdapterImpl(RetryRestService retryRestService) {
+		this.retryRestService = retryRestService;
+	}
 
 	@Override
 	public void post(final String url, final String methodType, final String requestBody,
@@ -24,8 +29,7 @@ public class PosterOutboundHttpAdapterImpl implements PosterOutboundHttpAdapter 
 		httpHeaders.entrySet().forEach(mapEntry -> headers.add(mapEntry.getKey(), mapEntry.getValue()));
 		final HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
 
-		final ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.valueOf(methodType), httpEntity,
-				String.class);
+		final ResponseEntity<String> exchange = retryRestService.retryPost(url, methodType, httpEntity);
 		log.trace("REST request sent to URL: {} and Response received is: {}", url, exchange);
 	}
 }

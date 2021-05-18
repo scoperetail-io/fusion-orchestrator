@@ -7,6 +7,7 @@ import org.apache.velocity.exception.VelocityException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.retry.annotation.EnableRetry;
 import org.xml.sax.SAXException;
 
 import com.scoperetail.fusion.messaging.schema.util.JaxbUtil;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 
 @Configuration
 @EnableConfigurationProperties
+@EnableRetry
 @AllArgsConstructor
 public class SpringOrchestratorConfig {
 
