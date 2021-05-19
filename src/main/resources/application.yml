@@ -1,5 +1,3 @@
 spring:
   profiles:
     active: local
-hash:
-  key: d8fee0ad8d9960fb4e02ed246b7f0ea51a2e18645514b166abe84f72106590c2
