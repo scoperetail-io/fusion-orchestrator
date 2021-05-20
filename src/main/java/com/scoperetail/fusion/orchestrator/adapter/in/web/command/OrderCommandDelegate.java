@@ -45,7 +45,7 @@ public class OrderCommandDelegate implements OrdersApiDelegate {
 		String storeNbr = orderDropEventRequest.getRoutingInfo().getDestinationNode().getNodeID();
 		Long orderNbr = orderDropEventRequest.getOrder().getFulfillmentOrder().getOrderNbr();
 		String logKey = OrderDropEvent.name() + storeNbr + orderNbr.toString();
-		return dedupeJpaAdapter.isNotDuplicate(HashUtil.getHash(logKey));
+		return dedupeJpaAdapter.isNotDuplicate(HashUtil.getHash(logKey, HashUtil.SHA3_512));
 	}
 
 	private ResponseEntity<ModelApiResponse> buildResponseEntity(final HttpStatus httpStatus) {
