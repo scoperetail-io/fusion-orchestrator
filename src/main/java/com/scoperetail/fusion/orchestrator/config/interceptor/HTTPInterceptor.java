@@ -1,5 +1,5 @@
 /* ScopeRetail (C)2021 */
-package com.scoperetail.fusion.orchestrator.config;
+package com.scoperetail.fusion.orchestrator.config.interceptor;
 
 import com.scoperetail.fusion.orchestrator.common.HashUtil;
 import java.util.Optional;
@@ -14,39 +14,36 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class HTTPInterceptor implements HandlerInterceptor {
 
+  private static final Integer UNAUTHORIZED = 401;
   private static final String SHA_256 = "SHA-256";
-  private static final String HEADER_AUTHORIZATION = "AUTHORIZATION";
+  private static final String HEADER_AUTHORIZATION = "Authorization";
 
-  @Value("${hash.key}")
+  @Value("${fusion.credentials}")
   private String credentials;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
 
-    String requestURL = request.getRequestURL().toString();
-
-    if (requestURL.contains("actuator")) {
-      return true;
-    }
-
     Optional<String> headerAuthorization =
         Optional.ofNullable(request.getHeader(HEADER_AUTHORIZATION));
     if (headerAuthorization.isPresent()) {
-      validateCredentials(headerAuthorization.get().replace("Basic", "").strip());
+      if(!validateCredentials(headerAuthorization.get().replace("Basic", "").strip())) {
+        response.sendError(UNAUTHORIZED);
+      }
     } else {
-      log.error("Error authorization not found");
-      throw new HeaderValidException();
+      log.error("Authorization header not found");
+      response.sendError(UNAUTHORIZED);
     }
-
     return true;
   }
 
-  private void validateCredentials(String credentials) {
+  private boolean validateCredentials(String credentials) {
     String value = HashUtil.getHash(credentials, SHA_256);
     if (!this.credentials.equals(value)) {
-      log.error("not authorized {}", credentials);
-      throw new HeaderValidException();
+      log.error("Unauthorized {}", credentials);
+      return false;
     }
+    return true;
   }
 }

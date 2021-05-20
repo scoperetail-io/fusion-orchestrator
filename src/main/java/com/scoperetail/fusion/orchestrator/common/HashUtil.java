@@ -1,10 +1,10 @@
-/* ScopeRetail (C)2021 */
 package com.scoperetail.fusion.orchestrator.common;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -12,7 +12,9 @@ public final class HashUtil {
 
   private static final String SHA3_512 = "SHA3-512";
 
-  private HashUtil() {}
+  private HashUtil() {
+
+  }
 
   public static byte[] digest(final byte[] input, final String algorithm) {
     MessageDigest md;
