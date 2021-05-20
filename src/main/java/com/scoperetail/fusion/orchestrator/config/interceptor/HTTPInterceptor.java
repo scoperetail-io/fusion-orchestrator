@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,8 +15,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class HTTPInterceptor implements HandlerInterceptor {
 
-  private static final Integer UNAUTHORIZED = 401;
-  private static final String SHA_256 = "SHA-256";
   private static final String HEADER_AUTHORIZATION = "Authorization";
 
   @Value("${fusion.credentials}")
@@ -29,17 +28,17 @@ public class HTTPInterceptor implements HandlerInterceptor {
         Optional.ofNullable(request.getHeader(HEADER_AUTHORIZATION));
     if (headerAuthorization.isPresent()) {
       if(!validateCredentials(headerAuthorization.get().replace("Basic", "").strip())) {
-        response.sendError(UNAUTHORIZED);
+        response.sendError(HttpStatus.UNAUTHORIZED.value(), "unauthorized");
       }
     } else {
       log.error("Authorization header not found");
-      response.sendError(UNAUTHORIZED);
+      response.sendError(HttpStatus.UNAUTHORIZED.value(), "unauthorized");
     }
     return true;
   }
 
   private boolean validateCredentials(String credentials) {
-    String value = HashUtil.getHash(credentials, SHA_256);
+    String value = HashUtil.getHash(credentials, HashUtil.SHA_256);
     if (!this.credentials.equals(value)) {
       log.error("Unauthorized {}", credentials);
       return false;

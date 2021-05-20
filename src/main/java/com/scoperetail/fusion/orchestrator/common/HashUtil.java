@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 public final class HashUtil {
 
   private static final String SHA3_512 = "SHA3-512";
+  public static final String SHA_256 = "SHA-256";
 
   private HashUtil() {
 
