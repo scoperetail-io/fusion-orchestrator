@@ -54,14 +54,16 @@
                     <substitutionAllowed>$line.substitutionAllowed</substitutionAllowed>
                     <itemNbr>$line.itemNbr</itemNbr>
                     <uom>$line.itemNbr</uom>
-                    <crossRefs>
-                        #foreach($crossRef in $line.crossRefs)
-                            <crossRef>
-                                <upc>$crossRef.upc</upc>
-                                <itemNbr>$crossRef.itemNbr</itemNbr>
-                            </crossRef>
-                        #end
-                    </crossRefs>
+                    #if($line.crossRefs.size())
+                    	<crossRefs>
+                        	#foreach($crossRef in $line.crossRefs)
+                            	<crossRef>
+                                	<upc>$crossRef.upc</upc>
+                                	<itemNbr>$crossRef.itemNbr</itemNbr>
+                            	</crossRef>
+                        	#end
+                    	</crossRefs>
+                    #end
                 </line>
             #end
         </lines>
