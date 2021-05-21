@@ -10,7 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class HashUtil {
 
-	private static final String SHA3_512 = "SHA3-512";
+	public static final String SHA3_512 = "SHA3-512";
+	public static final String SHA_256 = "SHA-256";
 
 	private HashUtil() {
 
@@ -34,8 +35,8 @@ public final class HashUtil {
 		return sb.toString();
 	}
 
-	public static String getHash(final String input) {
-		final byte[] shaInBytes = digest(input.getBytes(UTF_8), SHA3_512);
+	public static String getHash(final String input, final String algorithm) {
+		final byte[] shaInBytes = digest(input.getBytes(UTF_8), algorithm);
 		final String hash = bytesToHex(shaInBytes);
 		log.trace("Created hash for input: {} hash: {}", input, hash);
 		return hash;

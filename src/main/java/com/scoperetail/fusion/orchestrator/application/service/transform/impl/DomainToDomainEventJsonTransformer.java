@@ -31,7 +31,7 @@ public class DomainToDomainEventJsonTransformer extends AbstractTransformer {
 	final String payload = JsonUtils.marshal(Optional.ofNullable(domainEntity));
     final String keyJson = getTextFromTemplate(event, params, HASH_KEY_TEMPLATE);
     keyMap = getkeyMap(keyJson);
-    keyHash = HashUtil.getHash(keyJson);
+    keyHash = HashUtil.getHash(keyJson, HashUtil.SHA3_512);
 
     final DomainEvent domainEvent =
         DomainEvent.builder().eventId(keyHash).event(event).keyMap(keyMap).payload(payload).build();
