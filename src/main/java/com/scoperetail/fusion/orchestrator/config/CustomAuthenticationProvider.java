@@ -1,8 +1,8 @@
 package com.scoperetail.fusion.orchestrator.config;
 
 import com.scoperetail.fusion.orchestrator.common.HashUtil;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,13 +16,9 @@ import java.util.List;
 
 @Slf4j
 @Component
-@NoArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+    @Value("${fusion.credentials}")
     private String credentials;
-
-    CustomAuthenticationProvider(String credentials) {
-        this.credentials = credentials;
-    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
