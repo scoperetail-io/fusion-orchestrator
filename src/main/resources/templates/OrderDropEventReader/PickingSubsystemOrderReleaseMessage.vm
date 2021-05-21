@@ -55,14 +55,14 @@
                     <itemNbr>$line.itemNbr</itemNbr>
                     <uom>$line.itemNbr</uom>
                     #if($line.crossRefs.size())
-                    	<crossRefs>
-                        	#foreach($crossRef in $line.crossRefs)
-                            	<crossRef>
-                                	<upc>$crossRef.upc</upc>
-                                	<itemNbr>$crossRef.itemNbr</itemNbr>
-                            	</crossRef>
-                        	#end
-                    	</crossRefs>
+                    <crossRefs>
+                        #foreach($crossRef in $line.crossRefs)
+                            <crossRef>
+                                <upc>$crossRef.upc</upc>
+                                <itemNbr>$crossRef.itemNbr</itemNbr>
+                            </crossRef>
+                        #end
+                    </crossRefs>
                     #end
                 </line>
             #end
