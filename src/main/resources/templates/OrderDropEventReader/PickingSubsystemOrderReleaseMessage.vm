@@ -54,6 +54,7 @@
                     <substitutionAllowed>$line.substitutionAllowed</substitutionAllowed>
                     <itemNbr>$line.itemNbr</itemNbr>
                     <uom>$line.itemNbr</uom>
+                    #if($line.crossRefs.size())
                     <crossRefs>
                         #foreach($crossRef in $line.crossRefs)
                             <crossRef>
@@ -62,6 +63,7 @@
                             </crossRef>
                         #end
                     </crossRefs>
+                    #end
                 </line>
             #end
         </lines>
