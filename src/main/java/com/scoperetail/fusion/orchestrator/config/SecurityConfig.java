@@ -1,5 +1,6 @@
 package com.scoperetail.fusion.orchestrator.config;
 
+import com.scoperetail.fusion.messaging.config.FusionConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,10 +11,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	private CustomAuthenticationProvider customAuthenticationProvider;
+	private final FusionConfig fusionConfig;
 
-	SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider) {
-		this.customAuthenticationProvider = customAuthenticationProvider;
+	SecurityConfig(FusionConfig fusionConfig) {
+		this.fusionConfig = fusionConfig;
 	}
 
 	@Override
@@ -25,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		CustomAuthenticationProvider customAuthenticationProvider =
+				new CustomAuthenticationProvider(fusionConfig.getCredentials().getHash());
 		auth.authenticationProvider(customAuthenticationProvider);
 	}
 
