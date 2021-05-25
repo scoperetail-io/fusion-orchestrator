@@ -41,7 +41,7 @@
         <orderSequenceNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
         <loadGroupNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
         <carrierBagAllowed>$DOMAIN_ENTITY.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
-        <recordCarrierBagCount>$DOMAIN_ENTITY.order.fulfillmentOrder.lines</recordCarrierBagCount>
+        <recordCarrierBagCount>$DOMAIN_ENTITY.order.fulfillmentOrder.recordCarrierBagCount</recordCarrierBagCount>
 
         <lines>
             #foreach($line in $DOMAIN_ENTITY.order.fulfillmentOrder.lines)
@@ -54,7 +54,7 @@
                     <substitutionAllowed>$line.line.substitutionAllowed</substitutionAllowed>
                     <itemNbr>$line.line.itemNbr</itemNbr>
                     <uom>$line.line.itemNbr</uom>
-                    #if($line.line.crossRefs.size())
+                    #if($line.line.crossRefs.size() && $line.line.crossRefs.size() != 0)
                     <crossRefs>
                         #foreach($crossRef in $line.line.crossRefs)
                             <crossRef>
