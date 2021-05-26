@@ -7,7 +7,7 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-{{ $CIRCLE_PROJECT_REPONAME }}
+            - v1-dependencies-$CIRCLE_PROJECT_REPONAME
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
             
@@ -17,7 +17,7 @@ commands:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ $CIRCLE_PROJECT_REPONAME }}
+          key: v1-dependencies-$CIRCLE_PROJECT_REPONAME
           
   import_gpg_key:
     description: "Import GPG Key needed for signing"
