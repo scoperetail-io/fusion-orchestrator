@@ -45,7 +45,7 @@ commands:
           command: |
             git config --global user.email $GITHUB_USER_EMAIL
             git config --global user.name $GITHUB_USER_NAME
-            mvn  -Darguments="-DskipTests" -B release:prepare release:perform -Prelease -s .circleci/.circleci.settings.xml
+            mvn  -Darguments="-DskipTests" -B release:prepare release:perform -s .circleci/.circleci.settings.xml
   mvn_sonar:
     description: "Maven Sonar"
     steps:
