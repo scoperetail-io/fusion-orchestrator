@@ -48,8 +48,8 @@ commands:
             RELEASE="Yes"
             ADDITIONAL_PARAMS="--set-upstream origin $CIRCLE_BRANCH"
             mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:prepare -Dmaven.test.skip=true
-            export APP_NAME=$(mvn help:evaluate -Dexpression=project.name -q -DforceStdout)
-            export APP_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            mvn help:evaluate -Dexpression=project.name -q -DforceStdout > version.txt
+            mvn help:evaluate -Dexpression=project.version -q -DforceStdout > app.txt
             mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:perform -Dmaven.test.skip=true
             
             
@@ -69,6 +69,8 @@ commands:
 
       # build and push Docker image
       - run: |
+          APP_VERSION=$(cat version.txt)
+          APP_NAME=$(cat app.txt)
           echo "APP_NAME = $APP_NAME , APP_VERSION = $APP_VERSION"
           echo $DOCKER_PASS | docker login $DOCKER_REGISTRY -u $DOCKER_USER --password-stdin
           docker build -f .circleci/Dockerfile -t $DOCKER_REGISTRY/$APP_NAME:$APP_VERSION .
