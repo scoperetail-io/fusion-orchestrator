@@ -45,7 +45,12 @@ commands:
           command: |
             git config --global user.email $GITHUB_USER_EMAIL
             git config --global user.name $GITHUB_USER_NAME
-            mvn  -Darguments="-DskipTests" -B release:prepare release:perform -s .circleci/.circleci.settings.xml
+            RELEASE="Yes"
+            ADDITIONAL_PARAMS="--set-upstream origin $CIRCLE_BRANCH"
+            mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:prepare -Dmaven.test.skip=true
+            mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:perform -Dmaven.test.skip=true
+            
+            
   mvn_sonar:
     description: "Maven Sonar"
     steps:
@@ -99,7 +104,10 @@ workflows:
     jobs:
       - build-and-test-java11:
           context: OSSRH
+          
       - release-java11:
+          requires: 
+            - build-and-test-java11
           context: 
             - OSSRH
             - DOCKER_SCOPERETAIL
