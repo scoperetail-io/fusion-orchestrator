@@ -30,13 +30,13 @@ commands:
     steps:
       - run:
           name: Package
-          command: mvn -B -DskipTests clean package
+          command: mvn -B -DskipTests clean package -s .circleci/.circleci.settings.xml
   mvn_test:
     description: "Maven Test"
     steps:
       - run:
           name: Test
-          command: mvn test
+          command: mvn test -s .circleci/.circleci.settings.xml
   mvn_release:
     description: "Maven Release"
     steps:
@@ -45,13 +45,13 @@ commands:
           command: |
             git config --global user.email $GITHUB_USER_EMAIL
             git config --global user.name $GITHUB_USER_NAME
-            mvn -s .circleci/.maven.xml -Darguments="-DskipTests" -B release:prepare release:perform -Prelease
+            mvn  -Darguments="-DskipTests" -B release:prepare release:perform -Prelease -s .circleci/.circleci.settings.xml
   mvn_sonar:
     description: "Maven Sonar"
     steps:
       - run:
           name: Verify and Sonar Scan
-          command: mvn sonar:sonar
+          command: mvn sonar:sonar -s .circleci/.circleci.settings.xml
 
   docker_buid_and_publish:
     description: "Docker build & publish"
