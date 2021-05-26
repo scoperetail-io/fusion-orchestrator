@@ -50,7 +50,7 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: US.FUSION.ALPHA.IN.QUEUE
-              template: PickingSubsystemOrderReleaseMessage.vm
+              template: PickingSubsystemOrderReleaseMessage.ftl
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
@@ -77,9 +77,9 @@ fusion:
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickBeginEvent_uri.vm
-              requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.vm
-              requestHeaderTemplate: PickBeginEvent_requestHeader.vm
+              uriTemplate: PickBeginEvent_uri.ftl
+              requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.ftl
+              requestHeaderTemplate: PickBeginEvent_requestHeader.ftl
               templateCustomizer: PickBeginOutboundCustomizer
               transformationType: TEMPLATE_TRANSFORMER
             - adapterType: outbound
@@ -108,9 +108,9 @@ fusion:
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickEndEvent_uri.vm
-              requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.vm
-              requestHeaderTemplate: PickEndEvent_requestHeader.vm
+              uriTemplate: PickEndEvent_uri.ftl
+              requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.ftl
+              requestHeaderTemplate: PickEndEvent_requestHeader.ftl
               transformationType: TEMPLATE_TRANSFORMER
               templateCustomizer: PickEndOutboundCustomizer
             - adapterType: outbound
