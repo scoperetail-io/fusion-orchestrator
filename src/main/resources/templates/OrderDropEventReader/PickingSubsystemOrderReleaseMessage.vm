@@ -46,20 +46,20 @@
         <lines>
             #foreach($line in $DOMAIN_ENTITY.order.fulfillmentOrder.lines)
                 <line>
-                    <lineNbr>$line.lineNbr</lineNbr>
-                    <upc>$line.upc</upc>
-                    <qty>$line.qty</qty>
-                    <weight>$line.weight</weight>
-                    <pickByType>$line.pickByType</pickByType>
-                    <substitutionAllowed>$line.substitutionAllowed</substitutionAllowed>
-                    <itemNbr>$line.itemNbr</itemNbr>
-                    <uom>$line.itemNbr</uom>
-                    #if($line.crossRefs.size())
+                    <lineNbr>$line.line.lineNbr</lineNbr>
+                    <upc>$line.line.upc</upc>
+                    <qty>$line.line.qty</qty>
+                    <weight>$line.line.weight</weight>
+                    <pickByType>$line.line.pickByType</pickByType>
+                    <substitutionAllowed>$line.line.substitutionAllowed</substitutionAllowed>
+                    <itemNbr>$line.line.itemNbr</itemNbr>
+                    <uom>$line.line.itemNbr</uom>
+                    #if($line.line.crossRefs.size() && $line.line.crossRefs.size() != 0)
                     <crossRefs>
-                        #foreach($crossRef in $line.crossRefs)
+                        #foreach($crossRef in $line.line.crossRefs)
                             <crossRef>
-                                <upc>$crossRef.upc</upc>
-                                <itemNbr>$crossRef.itemNbr</itemNbr>
+                                <upc>$crossRef.crossRef.upc</upc>
+                                <itemNbr>$crossRef.crossRef.itemNbr</itemNbr>
                             </crossRef>
                         #end
                     </crossRefs>
