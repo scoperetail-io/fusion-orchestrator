@@ -46,20 +46,20 @@
         <lines>
             <#list DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getLines() as line>
                 <line>
-                    <lineNbr>${line.getLineNbr()}</lineNbr>
-                    <upc>${line.getUpc()}</upc>
-                    <qty>${line.getQty()}</qty>
-                    <weight>${line.getWeight()}</weight>
-                    <pickByType>${line.getPickByType()}</pickByType>
-                    <substitutionAllowed>${line.getSubstitutionAllowed()}</substitutionAllowed>
-                    <itemNbr>${line.getItemNbr()}</itemNbr>
-                    <uom>${line.getItemNbr()}</uom>
-                    <#if line.getCrossRefs()?has_content>
+                    <lineNbr>${line.getLine().getLineNbr()}</lineNbr>
+                    <upc>${line.getLine().getUpc()}</upc>
+                    <qty>${line.getLine().getQty()}</qty>
+                    <weight>${line.getLine().getWeight()}</weight>
+                    <pickByType>${line.getLine().getPickByType()}</pickByType>
+                    <substitutionAllowed>${line.getLine().getSubstitutionAllowed()}</substitutionAllowed>
+                    <itemNbr>${line.getLine().getItemNbr()}</itemNbr>
+                    <uom>${line.getLine().getItemNbr()}</uom>
+                    <#if line.getLine().getCrossRefs()?has_content>
                     <crossRefs>
-                        <#list line.getCrossRefs() as crossRef>
+                        <#list line.getLine().getCrossRefs() as crossRef>
                             <crossRef>
-                                <upc>${crossRef.getUpc()}</upc>
-                                <itemNbr>${crossRef.getItemNbr()}</itemNbr>
+                                <upc>${crossRef.getCrossRef().getUpc()}</upc>
+                                <itemNbr>${crossRef.getCrossRef().getItemNbr()}</itemNbr>
                             </crossRef>
                         </#list>
                     </crossRefs>
