@@ -1,5 +1,5 @@
 fusion:
-  templateEngine: VELOCITY
+  templateEngine: FTL
   brokers:
     - channel: NA
       hostUrl: 'tcp://127.0.0.1:61616'
