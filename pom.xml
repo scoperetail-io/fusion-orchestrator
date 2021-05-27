@@ -19,7 +19,7 @@
 		<spotless.version>2.10.0</spotless.version>
 		<openapi-specification.version>0.5</openapi-specification.version>
 		<fusion-shared-kernel.version>0.2</fusion-shared-kernel.version>
-		<fusion-messaging.version>0.4-SNAPSHOT</fusion-messaging.version>
+		<fusion-messaging.version>0.4</fusion-messaging.version>
 		<fusion-audit-persistence.version>0.2</fusion-audit-persistence.version>
 		<fusion-messaging-activemq.version>0.1</fusion-messaging-activemq.version>
 		<fusion-messaging-schema.version>0.6</fusion-messaging-schema.version>
