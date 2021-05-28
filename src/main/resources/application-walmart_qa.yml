@@ -1,5 +1,4 @@
 fusion:
-  templateEngine: VELOCITY
   brokers:
     - channel: NA
       hostUrl: 'tcp://fusion-activemq:61616'
