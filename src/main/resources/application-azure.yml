@@ -34,7 +34,7 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -52,13 +52,13 @@ fusion:
               brokerId: fusionBroker
               queueName: US.FUSION.ALPHA.IN.QUEUE
               template: PickingSubsystemOrderReleaseMessage
-              transformationType: TEMPLATE_TRANSFORMER
+              transformationType: FTL_TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -82,13 +82,13 @@ fusion:
               requestBodyTemplate: PickingOrderBeginEventMessage_requestBody
               requestHeaderTemplate: PickBeginEvent_requestHeader
               templateCustomizer: PickBeginOutboundCustomizer
-              transformationType: TEMPLATE_TRANSFORMER
+              transformationType: FTL_TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -112,14 +112,14 @@ fusion:
               uriTemplate: PickEndEvent_uri
               requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody
               requestHeaderTemplate: PickEndEvent_requestHeader
-              transformationType: TEMPLATE_TRANSFORMER
+              transformationType: FTL_TEMPLATE_TRANSFORMER
               templateCustomizer: PickEndOutboundCustomizer
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
