@@ -1,0 +1,1 @@
+/api-proxy/service/GIF/EPG/v1/service/resource/v2/events

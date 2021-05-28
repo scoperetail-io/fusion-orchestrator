@@ -33,7 +33,7 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
+              transformationType: DOMAIN_EVENT_VELOCITY_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -50,14 +50,14 @@ fusion:
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: US.FUSION.ALPHA.IN.QUEUE
-              template: PickingSubsystemOrderReleaseMessage.vm
-              transformationType: TEMPLATE_TRANSFORMER
+              template: PickingSubsystemOrderReleaseMessage
+              transformationType: VELOCITY_TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -77,17 +77,17 @@ fusion:
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickBeginEvent_uri.vm
-              requestBodyTemplate: PickingOrderBeginEventMessage_requestBody.vm
-              requestHeaderTemplate: PickBeginEvent_requestHeader.vm
+              uriTemplate: PickBeginEvent_uri
+              requestBodyTemplate: PickingOrderBeginEventMessage_requestBody
+              requestHeaderTemplate: PickBeginEvent_requestHeader
               templateCustomizer: PickBeginOutboundCustomizer
-              transformationType: TEMPLATE_TRANSFORMER
+              transformationType: FTL_TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER              
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER              
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
@@ -108,17 +108,17 @@ fusion:
               port: 443
               protocol: https
               methodType: POST
-              uriTemplate: PickEndEvent_uri.vm
-              requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody.vm
-              requestHeaderTemplate: PickEndEvent_requestHeader.vm
-              transformationType: TEMPLATE_TRANSFORMER
+              uriTemplate: PickEndEvent_uri
+              requestBodyTemplate: PickingSubSystemOrderCompleteMessage_requestBody
+              requestHeaderTemplate: PickEndEvent_requestHeader
+              transformationType: FTL_TEMPLATE_TRANSFORMER
               templateCustomizer: PickEndOutboundCustomizer
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_TRANSFORMER              
+              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER              
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
