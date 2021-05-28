@@ -21,9 +21,11 @@ import com.scoperetail.fusion.orchestrator.application.port.in.command.create.Po
 import com.scoperetail.fusion.orchestrator.application.port.out.jms.PosterOutboundJmsPort;
 import com.scoperetail.fusion.orchestrator.application.port.out.web.PosterOutboundWebPort;
 import com.scoperetail.fusion.orchestrator.application.service.transform.Transformer;
-import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToDomainEventJsonTransformer;
+import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToDomainEventJsonFtlTransformer;
+import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToDomainEventJsonVelocityTransformer;
+import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToFtlTemplateTransformer;
 import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToStringTransformer;
-import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToTemplateTransformer;
+import com.scoperetail.fusion.orchestrator.application.service.transform.impl.DomainToVelocityTemplateTransformer;
 import com.scoperetail.fusion.orchestrator.common.JsonUtils;
 import com.scoperetail.fusion.shared.kernel.common.annotation.UseCase;
 import com.scoperetail.fusion.shared.kernel.events.Event;
@@ -39,9 +41,13 @@ class PosterService implements PosterUseCase {
 
   private final PosterOutboundWebPort posterOutboundWebPort;
 
-  private final DomainToDomainEventJsonTransformer domainToDomainEventJsonTransformer;
+  private final DomainToDomainEventJsonVelocityTransformer domainToDomainEventJsonVelocityTransformer;
 
-  private final DomainToTemplateTransformer domainToTemplateTransformer;
+  private final DomainToDomainEventJsonFtlTransformer domainToDomainEventJsonFtlTransformer;
+
+  private final DomainToFtlTemplateTransformer domainToFtlTemplateTransformer;
+
+  private final DomainToVelocityTemplateTransformer domainToVelocityTemplateTransformer;
 
   private final DomainToStringTransformer domainToStringTransformer;
 
@@ -92,11 +98,17 @@ class PosterService implements PosterUseCase {
   private Transformer getTransformer(final TransformationType transformationType) {
     Transformer transformer;
     switch (transformationType) {
-      case DOMAIN_EVENT_TRANSFORMER:
-        transformer = domainToDomainEventJsonTransformer;
+      case DOMAIN_EVENT_FTL_TRANSFORMER:
+        transformer = domainToDomainEventJsonFtlTransformer;
         break;
-      case TEMPLATE_TRANSFORMER:
-        transformer = domainToTemplateTransformer;
+      case DOMAIN_EVENT_VELOCITY_TRANSFORMER:
+        transformer = domainToDomainEventJsonVelocityTransformer;
+        break;
+      case FTL_TEMPLATE_TRANSFORMER:
+        transformer = domainToFtlTemplateTransformer;
+        break;
+      case VELOCITY_TEMPLATE_TRANSFORMER:
+        transformer = domainToVelocityTemplateTransformer;
         break;
       default:
         transformer = domainToStringTransformer;
