@@ -35,9 +35,11 @@
         </orderPriority>
         <type code="6" name="${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getType().getName()}"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()}</pickDueTime>
-        <expectedOrderPickupTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()}</expectedOrderPickupTime>
-        <earliestPickTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()}</earliestPickTime>
+        <pickDueTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(23)}</pickDueTime>
+        <expectedOrderPickupTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(23)}</expectedOrderPickupTime>
+        <#if DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?has_content>
+        <earliestPickTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(23)}</earliestPickTime>
+        </#if>
         <orderSequenceNumber>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getOrderSequenceNumber()}</orderSequenceNumber>
         <loadGroupNumber>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getLoadGroupNumber()}</loadGroupNumber>
         <carrierBagAllowed>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getCarrierBagAllowed()}</carrierBagAllowed>
@@ -49,11 +51,13 @@
                     <lineNbr>${line.getLine().getLineNbr()}</lineNbr>
                     <upc>${line.getLine().getUpc()}</upc>
                     <qty>${line.getLine().getQty()}</qty>
+                    <#if line.getLine().getWeight()?has_content>
                     <weight>${line.getLine().getWeight()}</weight>
+                    </#if>
                     <pickByType>${line.getLine().getPickByType()}</pickByType>
                     <substitutionAllowed>${line.getLine().getSubstitutionAllowed()}</substitutionAllowed>
                     <itemNbr>${line.getLine().getItemNbr()}</itemNbr>
-                    <uom>${line.getLine().getItemNbr()}</uom>
+                    <uom>${line.getLine().getUom()}</uom>
                     <#if line.getLine().getCrossRefs()?has_content>
                     <crossRefs>
                         <#list line.getLine().getCrossRefs() as crossRef>

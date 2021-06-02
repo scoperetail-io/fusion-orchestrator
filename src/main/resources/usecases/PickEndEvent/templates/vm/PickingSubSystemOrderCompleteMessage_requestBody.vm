@@ -14,7 +14,7 @@
               "pickDetails": [
                #foreach($pickDetail in $line.pickDetails)
                 {
-                  "pickQty": "$pickDetail.pickQty",
+                  "pickQty": $pickDetail.pickQty,
                   "pickType": "$pickDetail.pickType",
                   "pickUpcNbr": "$pickDetail.pickUpcNbr",
                   #if( $pickDetail.pickType == "ORDERED" )
