@@ -15,7 +15,7 @@
               "pickDetails": [
                <#list line.pickDetails as pickDetail>
                 {
-                  "pickQty": "${pickDetail.getPickQty()}",
+                  "pickQty": ${pickDetail.getPickQty()},
                   "pickType": "${pickDetail.getPickType()}",
                   "pickUpcNbr": "${pickDetail.getPickUpcNbr()}",
                   <#if pickDetail.getPickType() == "ORDERED">

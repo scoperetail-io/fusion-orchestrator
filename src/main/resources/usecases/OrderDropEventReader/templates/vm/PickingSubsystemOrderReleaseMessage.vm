@@ -35,9 +35,11 @@
         </orderPriority>
         <type code="6" name="$DOMAIN_ENTITY.order.fulfillmentOrder.type.name"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime</pickDueTime>
-        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime</expectedOrderPickupTime>
-        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime</earliestPickTime>
+        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(23)</pickDueTime>
+        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(23)</expectedOrderPickupTime>
+        #if($DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime)
+        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(23)</earliestPickTime>
+        #end
         <orderSequenceNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
         <loadGroupNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
         <carrierBagAllowed>$DOMAIN_ENTITY.order.fulfillmentOrder.carrierBagAllowed</carrierBagAllowed>
@@ -49,11 +51,13 @@
                     <lineNbr>$line.line.lineNbr</lineNbr>
                     <upc>$line.line.upc</upc>
                     <qty>$line.line.qty</qty>
+                    #if($line.line.weight)
                     <weight>$line.line.weight</weight>
+                    #end
                     <pickByType>$line.line.pickByType</pickByType>
                     <substitutionAllowed>$line.line.substitutionAllowed</substitutionAllowed>
                     <itemNbr>$line.line.itemNbr</itemNbr>
-                    <uom>$line.line.itemNbr</uom>
+                    <uom>$line.line.uom</uom>
                     #if($line.line.crossRefs.size() && $line.line.crossRefs.size() != 0)
                     <crossRefs>
                         #foreach($crossRef in $line.line.crossRefs)
