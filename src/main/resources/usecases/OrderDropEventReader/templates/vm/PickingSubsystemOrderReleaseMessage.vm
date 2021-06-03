@@ -35,10 +35,10 @@
         </orderPriority>
         <type code="6" name="$DOMAIN_ENTITY.order.fulfillmentOrder.type.name"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(23)</pickDueTime>
-        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(23)</expectedOrderPickupTime>
+        <pickDueTime>$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(23,26)$DOMAIN_ENTITY.order.fulfillmentOrder.pickDueTime.substring(27)</pickDueTime>
+        <expectedOrderPickupTime>$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(23,26)$DOMAIN_ENTITY.order.fulfillmentOrder.expectedOrderPickupTime.substring(27)</expectedOrderPickupTime>
         #if($DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime)
-        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(23)</earliestPickTime>
+        <earliestPickTime>$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(0, 23) $DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(23,26)$DOMAIN_ENTITY.order.fulfillmentOrder.earliestPickTime.substring(27)</earliestPickTime>
         #end
         <orderSequenceNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.orderSequenceNumber</orderSequenceNumber>
         <loadGroupNumber>$DOMAIN_ENTITY.order.fulfillmentOrder.loadGroupNumber</loadGroupNumber>
