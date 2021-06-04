@@ -3,6 +3,7 @@
     "eventName": "ORDER_CREATE",
     "eventTs": "$DATE_TOOL.get('yyyy-MM-dd')T$DATE_TOOL.get('HH:mm:ss')",
     "eventPayload": {
+     "requestId": "$DOMAIN_ENTITY.requestId",    
      "orderType": "$DOMAIN_ENTITY.orderType",
      "customerId": "$DOMAIN_ENTITY.customerId"
      "products": [

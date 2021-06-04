@@ -38,7 +38,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"orderType\": \"REGULAR\",\r\n  \"customerId\": 1,\r\n  \"products\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 20,\r\n      \"productDescription\": \"Product 1\"\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n  \"orderType\": \"REGULAR\",\r\n  \"requestId\": \"3\",\r\n  \"customerId\": 1,\r\n  \"lines\": [\r\n    {\r\n      \"productId\": 1,\r\n      \"quantity\": 20\r\n    }\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
