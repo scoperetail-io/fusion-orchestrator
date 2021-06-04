@@ -1,5 +1,0 @@
-{
-  "EventId":"PickEndEvent",
-  "StoreNumber":"$DOMAIN_ENTITY.messageBody.pickOrderComplete.node.nodeId",
-  "OrderNumber":"$DOMAIN_ENTITY.messageBody.pickOrderComplete.fulfillmentOrder.orderNbr"
-}
