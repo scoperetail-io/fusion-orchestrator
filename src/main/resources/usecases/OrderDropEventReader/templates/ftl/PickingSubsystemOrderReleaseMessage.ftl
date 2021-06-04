@@ -35,10 +35,10 @@
         </orderPriority>
         <type code="6" name="${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getType().getName()}"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?datetime.iso?string("yyyy-MM-dd'T'HH:mm:ss Z")}</pickDueTime>
-        <expectedOrderPickupTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?datetime.iso?string("yyyy-MM-dd'T'HH:mm:ss Z")}</expectedOrderPickupTime>
+        <pickDueTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(23, 26)}${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(27)}</pickDueTime>
+        <expectedOrderPickupTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(23, 26)}${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(27)}</expectedOrderPickupTime>
         <#if DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?has_content>
-        <earliestPickTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?datetime.iso?string("yyyy-MM-dd'T'HH:mm:ss Z")}</earliestPickTime>
+        <earliestPickTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(23, 26)}${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(27)}</earliestPickTime>
         </#if>
         <orderSequenceNumber>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getOrderSequenceNumber()}</orderSequenceNumber>
         <loadGroupNumber>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getLoadGroupNumber()}</loadGroupNumber>
