@@ -1,3 +1,4 @@
+<#setting time_zone="${DOMAIN_ENTITY.getRoutingInfo().getSourceNode().getLocation().getTimezone()}">
 <PickingSubSystemOrderReleaseMessage xmlns="http://www.xmlns.walmartstores.com/SuppyChain/FulfillmentManagement/GlobalIntegeratedFulfillment/Picking/PickingSubSystemOrderReleaseMessage/1.0/" xmlns:hdr="http://www.xmlns.walmartstores.com/Header/datatypes/MessageHeader/1.4/">
   <hdr:MessageHeader>
     <hdr:SubId>SUB-EIC-UPDPICK-V1</hdr:SubId>
@@ -35,10 +36,10 @@
         </orderPriority>
         <type code="6" name="${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getType().getName()}"/>
         <destinationBusinessUnit destBannerName="Walmart Grocery" destDivisonNumber="1"/>
-        <pickDueTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(23, 26)}${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?substring(27)}</pickDueTime>
-        <expectedOrderPickupTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(23, 26)}${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?substring(27)}</expectedOrderPickupTime>
+        <pickDueTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getPickDueTime()?datetime.iso?string["yyyy-MM-dd'T'hh:mm:ss.SSS Z"]}</pickDueTime>
+        <expectedOrderPickupTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getExpectedOrderPickupTime()?datetime.iso?string["yyyy-MM-dd'T'hh:mm:ss.SSS Z"]}</expectedOrderPickupTime>
         <#if DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?has_content>
-        <earliestPickTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(0, 23)} ${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(23, 26)}${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?substring(27)}</earliestPickTime>
+        <earliestPickTime>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getEarliestPickTime()?datetime.iso?string["yyyy-MM-dd'T'hh:mm:ss.SSS Z"]}</earliestPickTime>
         </#if>
         <orderSequenceNumber>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getOrderSequenceNumber()}</orderSequenceNumber>
         <loadGroupNumber>${DOMAIN_ENTITY.getOrder().getFulfillmentOrder().getLoadGroupNumber()}</loadGroupNumber>

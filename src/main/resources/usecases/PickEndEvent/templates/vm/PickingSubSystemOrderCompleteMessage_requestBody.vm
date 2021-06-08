@@ -11,6 +11,7 @@
             {
               "orderLine": "$line.lineNbr",
               "qtyToFulfill": "$line.orderedQty",
+              "allLocationVisited": "true",
               "pickDetails": [
                #foreach($pickDetail in $line.pickDetails)
                 {
@@ -40,6 +41,7 @@
                   "pickLocation": "$pickDetail.container.location"
                  #end
                 }
+               #if( $foreach.hasNext ),#end
                #end
               ]
             }
