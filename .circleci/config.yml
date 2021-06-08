@@ -53,7 +53,7 @@ commands:
             then
               ls target/*.jar | grep -Eo "[[:digit:]]+.[[:digit:]]+" > version.txt
             fi
-            if [[ "$CIRCLE_BRANCH" = "HOTFIX*" ]]
+            if [[ "$CIRCLE_BRANCH" == *"HOTFIX-"* ]]
             then
               ls target/*.jar | grep -Eo "[[:digit:]]+.[[:digit:]]+.[[:digit:]]+" > version.txt
             fi
