@@ -1,5 +1,0 @@
-{
-  "EventId":"OrderDropEventReader",
-  "StoreNumber":"$DOMAIN_ENTITY.routingInfo.destinationNode.nodeID",
-  "OrderNumber":"$DOMAIN_ENTITY.order.fulfillmentOrder.orderNbr"
-}
