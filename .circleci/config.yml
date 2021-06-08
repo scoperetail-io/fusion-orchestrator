@@ -49,14 +49,7 @@ commands:
             ADDITIONAL_PARAMS="--set-upstream origin $CIRCLE_BRANCH"
             mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:prepare -Dmaven.test.skip=true
             mvn help:evaluate -Dexpression=project.name -q -DforceStdout > app.txt
-            if [[ "$CIRCLE_BRANCH" = "master" ]]
-            then
-              ls target/*.jar | grep -Eo "[[:digit:]]+.[[:digit:]]+" > version.txt
-            fi
-            if [[ "$CIRCLE_BRANCH" == *"HOTFIX-"* ]]
-            then
-              ls target/*.jar | grep -Eo "[[:digit:]]+.[[:digit:]]+.[[:digit:]]+" > version.txt
-            fi
+            ls target/*.jar|sed 's/.*-\([0-9][0-9.]*[^\/]*\)\.jar$/\1/' > version.txt
             mvn -s .circleci/.circleci.settings.xml -Darguments="-DskipTests" -B release:perform -Dmaven.test.skip=true
             
             
