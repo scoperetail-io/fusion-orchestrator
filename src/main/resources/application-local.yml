@@ -51,7 +51,7 @@ fusion:
               brokerId: fusionBroker
               queueName: US.FUSION.ALPHA.IN.QUEUE
               template: PickingSubsystemOrderReleaseMessage
-              transformationType: VELOCITY_TEMPLATE_TRANSFORMER
+              transformationType: FTL_TEMPLATE_TRANSFORMER
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS

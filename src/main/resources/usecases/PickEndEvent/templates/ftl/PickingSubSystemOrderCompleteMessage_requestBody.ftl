@@ -12,6 +12,7 @@
             {
               "orderLine": "${line.getLineNbr()}",
               "qtyToFulfill": "${line.getOrderedQty()}",
+              "allLocationVisited": "true",
               "pickDetails": [
                <#list line.pickDetails as pickDetail>
                 {
@@ -30,9 +31,9 @@
                   "pickedUser": "${pickDetail.getPickedUser()}",
                   "pickDisplayTs": "${pickDetail.getPickDisplayTs()}", 
                   "pickedTs": "${pickDetail.getPickedTs()}",
-                  "pickUom": "${pickDetail.getPickUom()}",
+                  "pickUom": "${pickDetail.getPickUom()}"
                   <#if pickDetail.getContainer()??>
-                  "container": [
+                  , "container": [
                     {
                       "pickQty": ${pickDetail.getPickQty()},
                       "containerNbr": "${pickDetail.getContainer().getContainerNbr()}"
@@ -41,6 +42,7 @@
                   "pickLocation": "${pickDetail.getContainer().getLocation()}"
                   </#if>
                 }
+               <#if pickDetail_has_next>,</#if>
                </#list>
               ]
             }
