@@ -31,6 +31,7 @@
                   "pickDisplayTs": "${pickDetail.getPickDisplayTs()}", 
                   "pickedTs": "${pickDetail.getPickedTs()}",
                   "pickUom": "${pickDetail.getPickUom()}",
+                  <#if pickDetail.getContainer()??>
                   "container": [
                     {
                       "pickQty": ${pickDetail.getPickQty()},
@@ -38,6 +39,7 @@
                     }
                   ],
                   "pickLocation": "${pickDetail.getContainer().getLocation()}"
+                  </#if>
                 }
                </#list>
               ]

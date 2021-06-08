@@ -30,6 +30,7 @@
                   "pickDisplayTs": "$pickDetail.pickDisplayTs", 
                   "pickedTs": "$pickDetail.pickedTs",
                   "pickUom": "$pickDetail.pickUom",
+                 #if( $pickDetail.container )
                   "container": [
                     {
                       "pickQty": $pickDetail.pickQty,
@@ -37,6 +38,7 @@
                     }
                   ],
                   "pickLocation": "$pickDetail.container.location"
+                 #end
                 }
                #end
               ]
