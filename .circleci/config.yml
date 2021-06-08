@@ -121,4 +121,4 @@ workflows:
               only: 
                 - master
                 - main
-                - HOTFIX*
+                - /HOTFIX-.*/
