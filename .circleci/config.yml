@@ -15,7 +15,7 @@ workflows:
             branches:
               ignore:
                 - master
-                - - /HOTFIX-.*/
+                - /HOTFIX-.*/
       - marvel/docker-publish:
           context:
             - OSSRH
