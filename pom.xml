@@ -230,8 +230,8 @@
 							<style>GOOGLE</style>
 						</googleJavaFormat>
 
-						<!-- make sure every file has the following copyright header. optionally, 
-							Spotless can set copyright years by digging through git history (see "license" 
+						<!-- make sure every file has the following copyright header. optionally,
+							Spotless can set copyright years by digging through git history (see "license"
 							section below) -->
 						<licenseHeader>
 							<content>/* ScopeRetail (C)$YEAR */</content>  <!-- or <file>${basedir}/license-header</file> -->
@@ -251,12 +251,12 @@
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>central</id>
+			<id>artifactory</id>
 			<name>scope-artifactory-releases</name>
 			<url>http://scopeartifactory.centralus.cloudapp.azure.com/artifactory/maven-release</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
+			<id>artifactory</id>
 			<name>scope-artifactory-snapshots</name>
 			<url>http://scopeartifactory.centralus.cloudapp.azure.com/artifactory/maven-snapshots</url>
 		</snapshotRepository>
@@ -271,7 +271,7 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>central</id>
+			<id>artifactory</id>
 			<name>scope-artifactory-virtual</name>
 			<url>http://scopeartifactory.centralus.cloudapp.azure.com/artifactory/maven-virtual</url>
 			<snapshots>
