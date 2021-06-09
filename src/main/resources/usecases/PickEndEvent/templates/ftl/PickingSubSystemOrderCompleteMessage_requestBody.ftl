@@ -31,15 +31,23 @@
                   "pickedUser": "${pickDetail.getPickedUser()}",
                   "pickDisplayTs": "${pickDetail.getPickDisplayTs()}", 
                   "pickedTs": "${pickDetail.getPickedTs()}",
-                  "pickUom": "${pickDetail.getPickUom()}"
+                  "pickUom": "${pickDetail.getPickUom()}",
                   <#if pickDetail.getContainer()??>
-                  , "container": [
+                  "container": [
                     {
                       "pickQty": ${pickDetail.getPickQty()},
                       "containerNbr": "${pickDetail.getContainer().getContainerNbr()}"
                     }
                   ],
                   "pickLocation": "${pickDetail.getContainer().getLocation()}"
+                  <#else>
+                  "container": [
+                    {
+                      "pickQty": "0",
+                      "containerNbr": ""
+                    }
+                  ],
+                  "pickLocation": ""
                   </#if>
                 }
                <#if pickDetail_has_next>,</#if>
