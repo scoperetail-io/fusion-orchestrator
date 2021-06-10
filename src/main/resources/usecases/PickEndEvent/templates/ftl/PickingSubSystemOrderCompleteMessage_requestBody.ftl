@@ -12,7 +12,6 @@
             {
               "orderLine": "${line.getLineNbr()}",
               "qtyToFulfill": "${line.getOrderedQty()}",
-              "allLocationsVisited": "true",
               "pickDetails": [
                <#list line.pickDetails as pickDetail>
                 {
