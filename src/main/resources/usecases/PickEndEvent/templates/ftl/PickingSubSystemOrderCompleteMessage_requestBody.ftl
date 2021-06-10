@@ -10,9 +10,17 @@
           "lines": [
            <#list DOMAIN_ENTITY.getMessageBody().getPickOrderComplete().getFulfillmentOrder().getLines().getLine() as line>
             {
+             <#assign totalPickedQty = 0>
               "orderLine": "${line.getLineNbr()}",
               "qtyToFulfill": "${line.getOrderedQty()}",
+             <#list line.pickDetails as pickDetail>
+               <#assign totalPickedQty += pickDetail.getPickQty()>
+             </#list>
+             <#if totalPickedQty == line.getOrderedQty()>
+              "allLocationsVisited": "false",
+             <#else>
               "allLocationsVisited": "true",
+             </#if>
               "pickDetails": [
                <#list line.pickDetails as pickDetail>
                 {
