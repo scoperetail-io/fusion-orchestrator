@@ -5,7 +5,6 @@ import javax.xml.validation.Schema;
 import org.springframework.stereotype.Component;
 import com.scoperetail.fusion.core.adapter.in.messaging.jms.AbstractMessageListener;
 import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouterReceiver;
-import com.scoperetail.fusion.messaging.schema.order.OrderMessage;
 import com.scoperetail.fusion.orchestrator.application.port.in.command.create.OrderCreateUseCase;
 
 @Component
@@ -23,10 +22,5 @@ public class OrderCreateTaskHandler extends AbstractMessageListener {
   @Override
   protected void handleMessage(final Object event, final boolean isValid) throws Exception {
     orderCreateUseCase.handleJmsEvent(event, isValid);
-  }
-
-  @Override
-  protected Class<OrderMessage> getClazz() {
-    return OrderMessage.class;
   }
 }
