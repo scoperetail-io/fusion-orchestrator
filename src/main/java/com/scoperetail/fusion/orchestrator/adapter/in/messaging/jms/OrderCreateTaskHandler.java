@@ -13,16 +13,33 @@ public class OrderCreateTaskHandler extends AbstractMessageListener {
 
   private final OrderCreateUseCase orderCreateUseCase;
 
-  public OrderCreateTaskHandler(final MessageRouterReceiver messageRouterReceiver,
-      final Schema orderMessageXmlSchema, final OrderCreateUseCase orderCreateUseCase) {
-    super("fusionBroker", "FUSION.ORDER.IN.QUEUE", MessageType.XML, orderMessageXmlSchema, "orderMessage",
+  public OrderCreateTaskHandler(
+      final MessageRouterReceiver messageRouterReceiver,
+      final Schema orderMessageXmlSchema,
+      final OrderCreateUseCase orderCreateUseCase) {
+    super(
+        "fusionBroker",
+        "FUSION.ORDER.IN.QUEUE",
+        MessageType.XML,
+        orderMessageXmlSchema,
+        "orderMessage",
         messageRouterReceiver);
     this.orderCreateUseCase = orderCreateUseCase;
   }
 
   @Override
-  protected void handleMessage(final Object event, final boolean isValid) throws Exception {
-    orderCreateUseCase.handleJmsEvent(event, isValid);
+  public void handleValidationFailure(final String event) throws Exception {
+    orderCreateUseCase.doValidationFailure(event);
+  }
+
+  @Override
+  protected void handleMessage(final Object event) throws Exception {
+    orderCreateUseCase.doHandleMessage(event);
+  }
+
+  @Override
+  public void handleFailure(final String event) {
+    orderCreateUseCase.doHandleFailure(event);
   }
 
   @Override

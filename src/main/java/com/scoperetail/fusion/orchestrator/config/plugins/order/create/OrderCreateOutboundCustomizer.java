@@ -9,7 +9,7 @@ public class OrderCreateOutboundCustomizer {
 
   private OrderCreateOutboundCustomizer() {}
 
-  public static Map<String, Object> getParamsMap() {
+  public static Map<String, Object> getParamsMap(final Object domainEntity) {
     final Map<String, Object> paramsMap = new HashMap<>();
     paramsMap.putAll(DateToolCustomizer.getDateParams());
     paramsMap.putAll(SecurityHeaderCustomizer.getSecurityParams());

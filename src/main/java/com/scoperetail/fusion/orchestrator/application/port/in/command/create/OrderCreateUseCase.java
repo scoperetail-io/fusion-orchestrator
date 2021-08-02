@@ -5,7 +5,9 @@ import com.scoperetail.fusion.orchestrator.domain.OrderCreateRequest;
 public interface OrderCreateUseCase {
   void handleRestEvent(OrderCreateRequest orderCreateRequest) throws Exception;
 
-  boolean isNotDuplicate(OrderCreateRequest orderCreateRequest);
+  void doValidationFailure(String event);
 
-  void handleJmsEvent(Object event, boolean isValid) throws Exception;
+  void doHandleMessage(Object event) throws Exception;
+
+  void doHandleFailure(String event);
 }

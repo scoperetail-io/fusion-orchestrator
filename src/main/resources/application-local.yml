@@ -7,19 +7,24 @@ fusion:
       queueManagerName: NA
       sendSessionCacheSize: 10
       userName: admin
-  retryPolicies:
-    - policyType: REALTIME
+      amqpRedeliveryPolicy:
+         backOffMultiplier: 1.0
+         maxDeliveries: 3
+         queueNameRegex: "*"
+         redeliveryDelay: 3000
+         useExponentialBackOff: true
+         maxDeliveryDelay: 3600000
+         initialRedeliveryDelay: 0
+  restRetryPolicy:
       maxAttempt: 3
       backoffMS: 1000
-      type: Fixed
-    - policyType: OFFLINE
-      maxAttempt: 5
-      backoffMS: 2000
-      type: Exponential
   usecases:
     - name: OrderCreateViaREST
       version: 1
       activeConfig: adapterConfig
+      hashKeyTemplate: hash_key
+      hashKeyTransformationType: HASH_KEY_FTL_TRANSFORMER
+      dedupeCheck: true
       configs:
         - name: adapterConfig
           adapters:
@@ -34,6 +39,11 @@ fusion:
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
               transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: FAILURE
+              brokerId: fusionBroker
+              queueName: FUSION.ORDER.IN.REST.ERROR              
     - name: OrderCreateViaJMS
       version: 1
       activeConfig: adapterConfig
@@ -52,12 +62,19 @@ fusion:
               requestHeaderTemplate: OrderCreateViaJMS_requestHeader
               templateCustomizer: com.scoperetail.fusion.orchestrator.config.plugins.order.create.OrderCreateOutboundCustomizer
               transformationType: FTL_TEMPLATE_TRANSFORMER
+              boBrokerId: fusionBroker
+              boQueueName: ORDER.CREATE.RETRY.IN
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
               brokerId: fusionBroker
               queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_VELOCITY_TRANSFORMER              
+              transformationType: DOMAIN_EVENT_VELOCITY_TRANSFORMER 
+            - adapterType: outbound
+              trasnportType: JMS
+              usecaseResult: FAILURE
+              brokerId: fusionBroker
+              queueName: FUSION.ORDER.IN.QUEUE.ERROR                          
                           
   credentials:
     hash: f3f98da4f4ffab537791fa4ff11d3473c070cdf802ea41182f8125a4c5b4b193

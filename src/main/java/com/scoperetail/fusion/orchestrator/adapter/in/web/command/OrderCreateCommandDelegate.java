@@ -1,40 +1,38 @@
 package com.scoperetail.fusion.orchestrator.adapter.in.web.command;
 
 import static com.scoperetail.fusion.orchestrator.common.Event.OrderCreateViaREST;
-import static org.springframework.http.HttpStatus.ACCEPTED;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
+import com.scoperetail.fusion.core.adapter.in.web.command.AbstractBaseDelegate;
+import com.scoperetail.fusion.core.application.port.in.command.DuplicateCheckUseCase;
 import com.scoperetail.fusion.orchestrator.adapter.in.web.OrdersApiDelegate;
 import com.scoperetail.fusion.orchestrator.application.port.in.command.create.OrderCreateUseCase;
 import com.scoperetail.fusion.orchestrator.domain.ModelApiResponse;
 import com.scoperetail.fusion.orchestrator.domain.OrderCreateRequest;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@RestController
-@AllArgsConstructor
-@Slf4j
-public class OrderCreateCommandDelegate implements OrdersApiDelegate {
+@Component
+public class OrderCreateCommandDelegate extends AbstractBaseDelegate implements OrdersApiDelegate {
 
-  private OrderCreateUseCase orderCreateUseCase;
+  private final OrderCreateUseCase orderCreateUseCase;
+
+  public OrderCreateCommandDelegate(
+      final DuplicateCheckUseCase duplicateCheckUseCase,
+      final OrderCreateUseCase orderCreateUseCase) {
+    super(duplicateCheckUseCase);
+    this.orderCreateUseCase = orderCreateUseCase;
+  }
 
   @Override
-  public ResponseEntity<ModelApiResponse> orderCreate(OrderCreateRequest orderCreateRequest) {
-    HttpStatus result = CONFLICT;
-    if (orderCreateUseCase.isNotDuplicate(orderCreateRequest)) {
-      try {
-        orderCreateUseCase.handleRestEvent(orderCreateRequest);
-        result = ACCEPTED;
-      } catch (final Exception e) {
-        result = INTERNAL_SERVER_ERROR;
-        log.error("Exception occurred during processing event {} exception is: {}",
-            OrderCreateViaREST, e);
-      }
-    }
+  public ResponseEntity<ModelApiResponse> orderCreate(final OrderCreateRequest orderCreateRequest) {
+    final HttpStatus result = doEvent(OrderCreateViaREST.name(), orderCreateRequest);
     return buildResponseEntity(result);
+  }
+
+  @Override
+  protected HttpStatus processEvent(final Object domainEntity) throws Exception {
+    orderCreateUseCase.handleRestEvent((OrderCreateRequest) domainEntity);
+    return HttpStatus.ACCEPTED;
   }
 
   private ResponseEntity<ModelApiResponse> buildResponseEntity(final HttpStatus httpStatus) {
