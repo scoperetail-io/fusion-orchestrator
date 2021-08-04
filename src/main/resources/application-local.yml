@@ -50,6 +50,12 @@ fusion:
       configs:
         - name: adapterConfig
           adapters:
+            - adapterType: inbound
+              brokerId: fusionBroker
+              queueName: FUSION.ORDER.IN.QUEUE
+              messageType: XML
+              messageIdentifiers:
+                - orderMessage
             - adapterType: outbound
               trasnportType: REST
               usecaseResult: SUCCESS

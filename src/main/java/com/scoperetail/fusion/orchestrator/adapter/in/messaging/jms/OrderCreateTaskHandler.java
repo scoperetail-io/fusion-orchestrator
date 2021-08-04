@@ -1,10 +1,12 @@
 /* ScopeRetail (C)2021 */
 package com.scoperetail.fusion.orchestrator.adapter.in.messaging.jms;
 
+import static com.scoperetail.fusion.orchestrator.common.Event.OrderCreateViaJMS;
 import javax.xml.validation.Schema;
 import org.springframework.stereotype.Component;
 import com.scoperetail.fusion.core.adapter.in.messaging.jms.AbstractMessageListener;
 import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouterReceiver;
+import com.scoperetail.fusion.messaging.config.FusionConfig;
 import com.scoperetail.fusion.messaging.schema.order.OrderMessage;
 import com.scoperetail.fusion.orchestrator.application.port.in.command.create.OrderCreateUseCase;
 
@@ -16,14 +18,9 @@ public class OrderCreateTaskHandler extends AbstractMessageListener {
   public OrderCreateTaskHandler(
       final MessageRouterReceiver messageRouterReceiver,
       final Schema orderMessageXmlSchema,
-      final OrderCreateUseCase orderCreateUseCase) {
-    super(
-        "fusionBroker",
-        "FUSION.ORDER.IN.QUEUE",
-        MessageType.XML,
-        orderMessageXmlSchema,
-        "orderMessage",
-        messageRouterReceiver);
+      final OrderCreateUseCase orderCreateUseCase,
+      final FusionConfig fusionConfig) {
+    super(OrderCreateViaJMS.name(), orderMessageXmlSchema, messageRouterReceiver, fusionConfig);
     this.orderCreateUseCase = orderCreateUseCase;
   }
 
