@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.xml.sax.SAXException;
+import com.scoperetail.fusion.adapter.dedupe.FusionDedupeConfig;
 import com.scoperetail.fusion.core.FusionCoreConfig;
 import com.scoperetail.fusion.core.common.JaxbUtil;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.AllArgsConstructor;
 @Configuration
 @EnableConfigurationProperties
 @AllArgsConstructor
-@Import({FusionCoreConfig.class})
+@Import({FusionCoreConfig.class, FusionDedupeConfig.class})
 public class OrchestratorConfig {
 
   private static final String ORDER_MESSAGE_XSD = "Order_Message.xsd";
@@ -22,5 +23,4 @@ public class OrchestratorConfig {
   public Schema orderMessageXmlSchema() throws SAXException {
     return JaxbUtil.getSchema(this.getClass(), ORDER_MESSAGE_XSD);
   }
-
 }
