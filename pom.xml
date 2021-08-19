@@ -14,7 +14,7 @@
 	<description>Routes the messages from source to target</description>
 	<properties>
 		<java.version>11</java.version>
-		<fusion.core.version>0.14</fusion.core.version>
+		<fusion.core.version>0.17</fusion.core.version>
 		<fusion-openapi-specification.version>0.8</fusion-openapi-specification.version>
 		<fusion-messaging-schema.version>0.10</fusion-messaging-schema.version>
 		<fusion-commons-exception.version>0.1</fusion-commons-exception.version>
