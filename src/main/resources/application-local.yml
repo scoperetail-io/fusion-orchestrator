@@ -54,6 +54,9 @@ fusion:
               brokerId: fusionBroker
               queueName: FUSION.ORDER.IN.QUEUE
               messageType: XML
+              readConcurrency: 5-10
+              boBrokerId: fusionBroker
+              boQueueName: FUSION.ORDER.IN.QUEUE.BO              
               messageIdentifiers:
                 - orderMessage
             - adapterType: outbound
