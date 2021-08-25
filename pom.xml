@@ -10,7 +10,7 @@
 
 	<groupId>com.scoperetail.fusion</groupId>
 	<artifactId>fusion-orchestrator</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<name>${project.artifactId}</name>
 	<description>Routes the messages from source to target</description>
 	<url>https://github.com/scoperetail-io/${project.artifactId}</url>
@@ -28,7 +28,7 @@
 		<developerConnection>
             scm:git:git@github.com:scoperetail-io/${project.artifactId}.git
         </developerConnection>
-		<tag>HEAD</tag>
+		<tag>fusion-orchestrator-0.2</tag>
 		<url>https://github.com/scoperetail-io/${project.artifactId}</url>
 	</scm>
 
