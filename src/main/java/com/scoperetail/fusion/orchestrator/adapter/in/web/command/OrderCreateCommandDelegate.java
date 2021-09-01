@@ -29,16 +29,18 @@ package com.scoperetail.fusion.orchestrator.adapter.in.web.command;
 import static com.scoperetail.fusion.orchestrator.common.Event.OrderCreateViaREST;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import com.scoperetail.fusion.config.FusionConfig;
 import com.scoperetail.fusion.core.adapter.in.web.command.AbstractBaseDelegate;
+import com.scoperetail.fusion.core.adapter.in.web.command.HttpRequestHelper;
 import com.scoperetail.fusion.core.application.port.in.command.AuditUseCase;
 import com.scoperetail.fusion.core.application.port.in.command.DuplicateCheckUseCase;
 import com.scoperetail.fusion.orchestrator.adapter.in.web.OrdersApiDelegate;
 import com.scoperetail.fusion.orchestrator.application.port.in.command.create.OrderCreateUseCase;
 import com.scoperetail.fusion.orchestrator.domain.ModelApiResponse;
 import com.scoperetail.fusion.orchestrator.domain.OrderCreateRequest;
+import com.scoperetail.fusion.shared.kernel.common.annotation.WebAdapter;
 
-@RestController
+@WebAdapter
 public class OrderCreateCommandDelegate extends AbstractBaseDelegate implements OrdersApiDelegate {
 
   private final OrderCreateUseCase orderCreateUseCase;
@@ -46,8 +48,10 @@ public class OrderCreateCommandDelegate extends AbstractBaseDelegate implements 
   public OrderCreateCommandDelegate(
       final DuplicateCheckUseCase duplicateCheckUseCase,
       final OrderCreateUseCase orderCreateUseCase,
-      final AuditUseCase auditUseCase) {
-    super(duplicateCheckUseCase, auditUseCase);
+      final AuditUseCase auditUseCase,
+      final FusionConfig fusionConfig,
+      final HttpRequestHelper httpRequestHelper) {
+    super(duplicateCheckUseCase, auditUseCase, fusionConfig, httpRequestHelper);
     this.orderCreateUseCase = orderCreateUseCase;
   }
 
