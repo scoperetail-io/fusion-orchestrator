@@ -1,3 +1,7 @@
-{
-  "requestId": "${DOMAIN_ENTITY.getRequestId()}"
-}
+[
+  {
+    "index": 1,
+    "key": "requestId",
+    "value": "${DOMAIN_ENTITY.getRequestId()}"
+  }
+]
