@@ -73,6 +73,8 @@ fusion:
               transformationType: FTL_TEMPLATE_TRANSFORMER
               boBrokerId: fusionBroker
               boQueueName: ORDER.CREATE.RETRY.IN
+              retryCustomizers: 
+                - com.scoperetail.fusion.orchestrator.config.plugins.order.create.OrderCreateOutboundCustomizer
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: SUCCESS
