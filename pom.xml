@@ -12,13 +12,13 @@
 
 	<groupId>com.scoperetail.fusion</groupId>
 	<artifactId>fusion-orchestrator</artifactId>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.5-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<description>Routes the messages from source to target</description>
 	<url>https://github.com/scoperetail-io/${project.artifactId}</url>
 
 	<properties>
-		<fusion.core.version>0.19</fusion.core.version>
+		<fusion.core.version>0.21</fusion.core.version>
 		<fusion-openapi-specification.version>0.1</fusion-openapi-specification.version>
 		<fusion-messaging-schema.version>0.10</fusion-messaging-schema.version>
 		<fusion-commons-exception.version>0.1</fusion-commons-exception.version>
