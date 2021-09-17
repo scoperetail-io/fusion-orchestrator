@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.scoperetail.pom</groupId>
@@ -16,12 +18,13 @@
 	<url>https://github.com/scoperetail-io/${project.artifactId}</url>
 
 	<properties>
-		<fusion.core.version>0.20</fusion.core.version>
+		<fusion.core.version>0.21</fusion.core.version>
 		<fusion-openapi-specification.version>0.1</fusion-openapi-specification.version>
 		<fusion-messaging-schema.version>0.10</fusion-messaging-schema.version>
 		<fusion-commons-exception.version>0.1</fusion-commons-exception.version>
 		<spring.version>2.4.5</spring.version>
 		<jackson.version>2.11.4</jackson.version>
+		<liquibase.version>3.6.1</liquibase.version>
 	</properties>
 
 	<scm>
@@ -92,6 +95,20 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase/liquibase-maven-plugin.properties</propertyFile>
+					<changeLogFile>src/main/resources/changelog/changelog.xml</changeLogFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<profiles>
 		<profile>

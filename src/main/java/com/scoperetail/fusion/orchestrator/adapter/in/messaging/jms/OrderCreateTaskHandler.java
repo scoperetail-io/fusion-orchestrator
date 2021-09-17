@@ -32,6 +32,7 @@ import javax.xml.validation.Schema;
 import org.springframework.stereotype.Component;
 import com.scoperetail.fusion.config.FusionConfig;
 import com.scoperetail.fusion.core.adapter.in.messaging.jms.AbstractMessageListener;
+import com.scoperetail.fusion.core.application.port.in.command.AuditUseCase;
 import com.scoperetail.fusion.messaging.adapter.out.messaging.jms.MessageRouterReceiver;
 import com.scoperetail.fusion.messaging.schema.order.OrderMessage;
 import com.scoperetail.fusion.orchestrator.application.port.in.command.create.OrderCreateUseCase;
@@ -45,8 +46,14 @@ public class OrderCreateTaskHandler extends AbstractMessageListener {
       final MessageRouterReceiver messageRouterReceiver,
       final Schema orderMessageXmlSchema,
       final OrderCreateUseCase orderCreateUseCase,
-      final FusionConfig fusionConfig) {
-    super(OrderCreateViaJMS.name(), orderMessageXmlSchema, messageRouterReceiver, fusionConfig);
+      final FusionConfig fusionConfig,
+      final AuditUseCase auditUseCase) {
+    super(
+        OrderCreateViaJMS.name(),
+        orderMessageXmlSchema,
+        messageRouterReceiver,
+        fusionConfig,
+        auditUseCase);
     this.orderCreateUseCase = orderCreateUseCase;
   }
 

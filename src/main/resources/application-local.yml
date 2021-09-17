@@ -18,6 +18,10 @@ fusion:
   restRetryPolicy:
       maxAttempt: 3
       backoffMS: 1000
+  auditConfig:
+    enabled: true
+    targetBrokerId: fusionBroker
+    targetQueueName: FUSION.AUDIT.IN
   usecases:
     - name: OrderCreateViaREST
       version: 1
@@ -35,18 +39,15 @@ fusion:
               queueName: FUSION.ORDER.OUT.QUEUE
             - adapterType: outbound
               trasnportType: JMS
-              usecaseResult: SUCCESS
-              brokerId: fusionBroker
-              queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_FTL_TRANSFORMER
-            - adapterType: outbound
-              trasnportType: JMS
               usecaseResult: FAILURE
               brokerId: fusionBroker
               queueName: FUSION.ORDER.IN.REST.ERROR              
     - name: OrderCreateViaJMS
       version: 1
       activeConfig: adapterConfig
+      hashKeyTemplate: hash_key
+      hashKeyTransformationType: HASH_KEY_FTL_TRANSFORMER
+      dedupeCheck: false      
       configs:
         - name: adapterConfig
           adapters:
@@ -74,13 +75,7 @@ fusion:
               boBrokerId: fusionBroker
               boQueueName: ORDER.CREATE.RETRY.IN
               retryCustomizers: 
-                - com.scoperetail.fusion.orchestrator.config.plugins.order.create.OrderCreateOutboundCustomizer
-            - adapterType: outbound
-              trasnportType: JMS
-              usecaseResult: SUCCESS
-              brokerId: fusionBroker
-              queueName: FUSION.AUDIT.IN
-              transformationType: DOMAIN_EVENT_VELOCITY_TRANSFORMER 
+                - com.scoperetail.fusion.retry.offline.config.plugins.order.create.OrderCreateRequestHeaderCustomizer
             - adapterType: outbound
               trasnportType: JMS
               usecaseResult: FAILURE
