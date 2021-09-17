@@ -20,8 +20,8 @@ fusion:
       backoffMS: 1000
   auditConfig:
     enabled: true
-    brokerId: fusionBroker
-    queueName: FUSION.AUDIT.IN
+    targetBrokerId: fusionBroker
+    targetQueueName: FUSION.AUDIT.IN
   usecases:
     - name: OrderCreateViaREST
       version: 1
