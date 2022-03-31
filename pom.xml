@@ -20,7 +20,7 @@
 		<fusion-openapi-specification.version>0.1</fusion-openapi-specification.version>
 		<fusion-messaging-schema.version>0.10</fusion-messaging-schema.version>
 		<fusion-commons-exception.version>0.1</fusion-commons-exception.version>
-		<spring.version>2.4.5</spring.version>
+		<spring.version>2.5.12</spring.version>
 		<jackson.version>2.11.4</jackson.version>
 		<liquibase.version>3.6.1</liquibase.version>
 	</properties>
